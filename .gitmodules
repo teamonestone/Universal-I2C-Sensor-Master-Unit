@@ -1,0 +1,18 @@
+[submodule "firmware/universal-i2c-sensor-master-unit-firmware/lib/TCA9548A"]
+	path = firmware/universal-i2c-sensor-master-unit-firmware/lib/TCA9548A
+	url = https://github.com/teamonestone/TCA9548A.git
+[submodule "firmware/universal-i2c-sensor-master-unit-firmware/lib/Adafruit_BNO055"]
+	path = firmware/universal-i2c-sensor-master-unit-firmware/lib/Adafruit_BNO055
+	url = https://github.com/adafruit/Adafruit_BNO055.git
+[submodule "firmware/universal-i2c-sensor-master-unit-firmware/lib/Adafruit_Sensor"]
+	path = firmware/universal-i2c-sensor-master-unit-firmware/lib/Adafruit_Sensor
+	url = https://github.com/adafruit/Adafruit_Sensor.git
+[submodule "firmware/universal-i2c-sensor-master-unit-firmware/lib/Adafruit_VL53L0X"]
+	path = firmware/universal-i2c-sensor-master-unit-firmware/lib/Adafruit_VL53L0X
+	url = https://github.com/adafruit/Adafruit_VL53L0X.git
+[submodule "firmware/universal-i2c-sensor-master-unit-firmware/lib/Adafruit_VL6180X"]
+	path = firmware/universal-i2c-sensor-master-unit-firmware/lib/Adafruit_VL6180X
+	url = https://github.com/adafruit/Adafruit_VL6180X.git
+[submodule "firmware/universal-i2c-sensor-master-unit-firmware/lib/SRF08"]
+	path = firmware/universal-i2c-sensor-master-unit-firmware/lib/SRF08
+	url = https://github.com/teamonestone/SRF08.git
