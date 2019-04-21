@@ -1,3 +1,5 @@
+# own ignored files
+firmware/universal-i2c-sensor-master-unit-firmware/.gitignore
 
 # Created by 
 https://www.gitignore.io/api/c,c++,eagle,cmake,linux,macos,windows,notepadpp,clion+all,platformio,atmelstudio,visualstudio,visualstudiocode
