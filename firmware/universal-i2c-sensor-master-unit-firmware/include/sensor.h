@@ -18,14 +18,14 @@
 // Types //
 ///////////
 
-enum sensorType {US, BNO055, VL53L0X, VL6180X, CMPS10};
+enum sensorType {NONE, US, BNO055, VL53L0X, VL6180X, CMPS10};
 
-typedef struct Reading
+typedef struct Reading_t
 {
     uint8_t bytes[10];
     uint64_t timeOfLastReading;
     bool errorFlag;
-};
+} Reading;
 
 
 //////////////////
@@ -38,10 +38,20 @@ class Sensor
 	public:
         
         // constructor 
+        Sensor();
         Sensor(sensorType type,uint8_t port);
-        ~Sensor();
+        //~Sensor();
 
         // public functiuons 
+        bool init();
+        bool isDisabled();
+        bool updateReading();
+
+        void enable();
+        void disable();
+        
+        Reading getCurrentReading();
+
 
 // End PUBLIC --------------------------------------------------------------------
 
@@ -49,7 +59,9 @@ class Sensor
 	private:
 
         // basics 
+        sensorType _type;
         uint8_t _port;
+        bool _disabled;
 
         Reading _reading;
 
