@@ -1,0 +1,24 @@
+{
+    "Header": {
+        "Comment": "All values are metric (mm)",
+        "CreationDate": "2019-09-27T14:04:54Z",
+        "GenerationSoftware": {
+            "Application": "EAGLE",
+            "Vendor": "Autodesk",
+            "Version": "9.5.0"
+        },
+        "Part": "Single"
+    },
+    "Overall": {
+        "BoardThickness": 1.57,
+        "LayerNumber": 2,
+        "Name": {
+            "ProjectId": "universal-i2c-sensor-master-unit"
+        },
+        "Owner": "Jonas Merkle <jonas.merkle@uni-ulm.de>",
+        "Size": {
+            "X": 52.07,
+            "Y": 74.295
+        }
+    }
+}
