@@ -13,7 +13,7 @@
 #include <utility.h>
 
 // sensor stuff
-#include <sensor.h>
+#include <sensors.h>
 
 /////////////
 // Defines //
@@ -30,7 +30,7 @@
 ////////////////////
 // global objects //
 ////////////////////
-Sensor sensors[8];
+Sensors Sensors;
 
 /////////////
 // "setup" //
