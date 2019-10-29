@@ -9,6 +9,9 @@
 #include <inttypes.h>
 #include <Arduino.h>
 
+// memory management
+#include <ObjectManagementEngine.h>
+
 // sensor libs
 #include <Adafruit_BNO055.h>
 #include <Adafruit_Sensor.h>
@@ -20,11 +23,11 @@
 // Defines //
 /////////////
 
-#define BNO055_SAMPLERATE_DELAY_MS (100)
-
 ///////////
 // Types //
 ///////////
+
+enum SensorType {NONE, BNO055_T, VL53L0X_T, VL6180X_T, SRF08_T, CMPS10_T};
 
 //////////////////
 // Sensor-Class //
@@ -39,18 +42,8 @@ class Sensors
         Sensors();
         ~Sensors();
 
-        // public functiuons 
-        void activateBno055(uint8_t port, bool status);
-        void activateVl53l0x(uint8_t port, bool status);
-        void activateVl6180x(uint8_t port, bool status);
-        void activateSrf08(uint8_t port, bool status);
-
-        void forceUpdate();
-
-        int getBno055Reading(uint8_t port);
-        int getVl53l0xReading(uint8_t port);
-        int getVl6180xReading(uint8_t port);
-        int getSrf08Reading(uint8_t port);
+		// public functiuons 
+		bool initNewSensor(uint8_t port, SensorType type);
 
 
 // End PUBLIC --------------------------------------------------------------------
@@ -58,34 +51,49 @@ class Sensors
 // Begin PRIVATE -----------------------------------------------------------------
 	private:
 
-        Adafruit_BNO055 bno055[8];
-        Adafruit_VL53L0X vl53l0x[8];
-        Adafruit_VL6180X vl6180x[8];
-        SRF08 srf08[8];
+		// private data structur
+		union Readings {
+			uint8_t byteValues[3];
+			int16_t intValues[3];
+			float floatVealues[3];
+		};
 
-        bool bno055Ports[8];
-        bool vl53l0xPorts[8];
-        bool vl6180xPorts[8];
-        bool srf08Ports[8];
+		struct Sensor{
 
-        bool bno055ActiveSensors[8];
-        bool vl53l0xActiveSensors[8];
-        bool vl6180xActiveSensors[8];
-        bool srf08ActiveSensors[8];
+			// general stuff
+			uint8_t port;
+			SensorType type;
 
-        int bno055Readings[8];
-        int vl53l0xReadings[8];
-        int vl6180xReadings[8];
-        int srf08Readings[8];
+			// sensor object
+			void *object;
 
-        void initSensors();
+			// readings
+			Readings readings;
 
-        void updateBno055();
-        void updateVl53l0x();
-        void updateVl6180x();
-        void updateSrf08();
+			// timing
+			uint32_t timeOfLastReading;
+			uint32_t readingIntervall;
+			
+			// flags
+			bool busy;
+			bool active;
+			bool used;
+
+			// functions
+			bool (*init)(Sensor);
+			bool (*activate)(Sensor);
+			bool (*deactivate)(Sensor);
+			bool (*update)(Sensor);
+		};
+
+		// private objects
+		Sensor _sensors[8];
+
+		// private functions
+		uint8_t getFreeSensor();
 
 // End PRIVATE -------------------------------------------------------------------
+
 };
 
 #endif
