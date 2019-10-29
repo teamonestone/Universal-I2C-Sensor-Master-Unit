@@ -22,6 +22,8 @@
 /////////////
 // Defines //
 /////////////
+#define SENSORS_POOL_SIZE 8
+#define SENSORS_READING_VECT_SIZE 4
 
 ///////////
 // Types //
@@ -41,23 +43,9 @@ class Sensors
         // constructor 
         Sensors();
         ~Sensors();
+		
 
-		// public functiuons 
-		bool initNewSensor(uint8_t port, SensorType type);
-
-
-// End PUBLIC --------------------------------------------------------------------
-
-// Begin PRIVATE -----------------------------------------------------------------
-	private:
-
-		// private data structur
-		union Readings {
-			uint8_t byteValues[3];
-			int16_t intValues[3];
-			float floatVealues[3];
-		};
-
+		// data structur for a sensor
 		struct Sensor{
 
 			// general stuff
@@ -68,7 +56,7 @@ class Sensors
 			void *object;
 
 			// readings
-			Readings readings;
+			float sensorReadings[SENSORS_READING_VECT_SIZE];
 
 			// timing
 			uint32_t timeOfLastReading;
@@ -86,11 +74,25 @@ class Sensors
 			bool (*update)(Sensor);
 		};
 
+		// public functiuons 
+		int8_t connectSensor(uint8_t port, SensorType type);
+		bool activateSensor(int8_t sensorNo);
+		bool deactivateSensor(int8_t sensorNo);
+		bool disconnectSensor(int8_t sensorNo);
+		bool updateSenor(int8_t sensorNo);
+		bool updateAllSensors();
+
+
+// End PUBLIC --------------------------------------------------------------------
+
+// Begin PRIVATE -----------------------------------------------------------------
+	private:
+
 		// private objects
-		Sensor _sensors[8];
+		Sensor _sensors[SENSORS_POOL_SIZE];
 
 		// private functions
-		uint8_t getFreeSensor();
+		int8_t getFreeSensor();
 
 // End PRIVATE -------------------------------------------------------------------
 

@@ -2,16 +2,17 @@
 #include <Sensors.h>
 
 Sensors::Sensors() {
+    ;
 }
 
 Sensors::~Sensors() {
+    ;
 }
 
-bool Sensors::initNewSensor(uint8_t port, SensorType type) {
-    uint8_t sensorNo = getFreeSensor();
-
-    if (sensorNo == 255) {
-        return false;
+int8_t Sensors::connectSensor(uint8_t port, SensorType type) {
+    int8_t sensorNo = getFreeSensor();
+    if (sensorNo >= SENSORS_POOL_SIZE || sensorNo < 0) {
+        return -1;
     }
 
     bool noError = true;
@@ -35,7 +36,7 @@ bool Sensors::initNewSensor(uint8_t port, SensorType type) {
             noError &= _sensors[sensorNo].init(_sensors[sensorNo]);
             noError &= _sensors[sensorNo].activate(_sensors[sensorNo]);
             if (!noError) {
-                return false;
+                return -1;
             }
 
             break;
@@ -58,7 +59,7 @@ bool Sensors::initNewSensor(uint8_t port, SensorType type) {
             noError &= _sensors[sensorNo].init(_sensors[sensorNo]);
             noError &= _sensors[sensorNo].activate(_sensors[sensorNo]);
             if (!noError) {
-                return false;
+                return -1;
             }
            
             break;
@@ -81,14 +82,13 @@ bool Sensors::initNewSensor(uint8_t port, SensorType type) {
             noError &= _sensors[sensorNo].init(_sensors[sensorNo]);
             noError &= _sensors[sensorNo].activate(_sensors[sensorNo]);
             if (!noError) {
-                return false;
+                return -1;
             }
             
             break;
 
         case SRF08_T:
 
-            /*
             // create the new sensor object 
             SRF08 *_SRF08 = (SRF08*) OME::GetFreeObjPrt(nullptr);
             *_SRF08 = SRF08();
@@ -105,21 +105,64 @@ bool Sensors::initNewSensor(uint8_t port, SensorType type) {
             noError &= _sensors[sensorNo].init(_sensors[sensorNo]);
             noError &= _sensors[sensorNo].activate(_sensors[sensorNo]);
             if (!noError) {
-                return false;
+                return -1;
             }
             
             break;
-            */
+
         case CMPS10_T:
         case NONE:
         default:
-            return false;
+            return -1;
             break;
     }
 
-    return true;
+    return sensorNo;
 }
 
-uint8_t Sensors::getFreeSensor() {
+bool Sensors::activateSensor(int8_t sensorNo) {
+    if (sensorNo >= SENSORS_POOL_SIZE || sensorNo < 0) {
+        return false;
+    }
+
+    return _sensors[sensorNo].activate(_sensors[sensorNo]);
+}
+
+bool Sensors::deactivateSensor(int8_t sensorNo) {
+    if (sensorNo >= SENSORS_POOL_SIZE || sensorNo < 0) {
+        return false;
+    }
+
+    return _sensors[sensorNo].deactivate(_sensors[sensorNo]);
+}
+
+bool Sensors::disconnectSensor(int8_t sensorNo) {
+    if (sensorNo >= SENSORS_POOL_SIZE || sensorNo < 0) {
+        return false;
+    }
+
+    // @TODO
+}
+
+bool Sensors::updateSenor(int8_t sensorNo) {
+    if (sensorNo >= SENSORS_POOL_SIZE || sensorNo < 0) {
+        return false;
+    }
+
+    return _sensors[sensorNo].update(_sensors[sensorNo]);
+}
+
+bool Sensors::updateAllSensors() {
+    bool noError = true;
+    for (int8_t i = 0; i < SENSORS_POOL_SIZE; i++){
+        if (_sensors[i].used && _sensors[i].active && !_sensors[i].busy) {
+            noError &= _sensors[i].update(_sensors[i]);
+        }
+    }
+    return noError;
+}
+
+
+int8_t Sensors::getFreeSensor() {
     return 0;
 }
