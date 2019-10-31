@@ -1,5 +1,5 @@
-#ifndef sensors_h
-#define sensors_h
+#ifndef SENSORS_h
+#define SENSORS_h
 
 //////////////
 // Includes //
