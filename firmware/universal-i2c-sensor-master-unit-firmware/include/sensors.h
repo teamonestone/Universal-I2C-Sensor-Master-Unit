@@ -12,6 +12,7 @@
 // include the sensor types and warppers
 #include "Sensor_T.h"
 #include "SensorWrappers.h"
+#include "Hardware.h"
 
 
 /////////////

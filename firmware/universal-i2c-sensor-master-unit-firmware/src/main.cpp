@@ -44,6 +44,8 @@ void setup() {
   // hardware i2c
   Wire.begin(SMU_MAIN_ADDRESS);
 
+  MySensors.connectSensor(0, Sensor_T::SensorType::SRF08_T);
+
 }
 
 /////////////////
@@ -51,5 +53,9 @@ void setup() {
 /////////////////
 
 void loop() {
+    Hardware::LEDs::status(1);
     MySensors.updateAllSensors();
+    delay(100);
+    Hardware::LEDs::status(0);
+    delay(100);
 }

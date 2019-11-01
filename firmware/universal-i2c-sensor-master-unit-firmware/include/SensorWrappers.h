@@ -23,8 +23,7 @@
 #include <inttypes.h>
 
 // i2c stuff
-#include <Wire.h>
-#include "TCA9548A.h"
+#include "Hardware.h"
 
 // memory management
 #include "ObjectManagementEngine.h"
@@ -55,13 +54,6 @@
 
 #define SRF08_REFRESH_TIMING 100
 #define SRF08_I2C_ADDRESS 112
-
-
-/////////////
-// Objects //
-/////////////
-
-TCA9548A mux;
 
 
 ///////////////

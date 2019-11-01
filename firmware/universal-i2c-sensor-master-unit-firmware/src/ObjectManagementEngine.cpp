@@ -14,6 +14,69 @@
 // associated header
 #include <ObjectManagementEngine.h>
 
+///////////////////////
+// private functions //
+///////////////////////
+
+/**
+ * @brief Initialize the memory witch gets split into smaller memory slices.
+ * 
+ */
+uint8_t OME::BytePool[OME_OBJ_POOL_SIZE * OME_OBJ_SIZE] = {0};
+
+/**
+ * @brief Initialize the Array with usage inforation.
+ * 
+ * @param argname desc
+ * @return
+ */
+bool OME::inUse[OME_OBJ_POOL_SIZE] = {0};
+
+/**
+ * @brief Main constructor of the class (private so no instance of this class can be created).
+ * 
+ */
+OME::OME() {};
+
+/**
+ * @brief Main destructor of the class (private so no instance of this class can be created).
+ * 
+ */
+OME::~OME() {};
+
+/**
+ * @brief Convert a pointer number in an actual pointer.
+ * 
+ * @param poolNo The pointer number.
+ * @return The actual pointer as void*.
+ */
+void* OME::ConvertNoToPtr(int16_t poolNo) {
+    if (poolNo >= OME_OBJ_POOL_SIZE || poolNo < 0) {
+        return nullptr;
+    }
+    else {
+        return BytePool + (poolNo * OME_OBJ_SIZE);
+    }
+}
+
+/**
+ * @brief Convert an actual pointer in a pointer number.
+ * 
+ * @param objPtr The actual pointer.
+ * @return The pointer number as int16_t.
+ */
+int16_t OME::ConvertPrtToNo(void *objPtr) {
+    int16_t poolNo = -1;
+    for (int16_t i = 0; i < OME_OBJ_POOL_SIZE; i++) {
+        if (ConvertNoToPtr(i) == objPtr) {
+            poolNo = i;
+            break;
+        }
+    }
+    return poolNo;
+}
+
+
 //////////////////////
 // public functions //
 //////////////////////
@@ -67,67 +130,4 @@ bool OME::FreePtr(int16_t poolNo) {
     }
     inUse[poolNo] = false;
     return true;
-}
-
-///////////////////////
-// private functions //
-///////////////////////
-
-/**
- * @brief Main constructor of the class (private so no instance of this class can be created).
- * 
- */
-OME::OME() {};
-
-/**
- * @brief Main destructor of the class (private so no instance of this class can be created).
- * 
- */
-OME::~OME() {};
-
-
-/**
- * @brief Initialize the memory witch gets split into smaller memory slices.
- * 
- */
-uint8_t BytePool[OME_OBJ_POOL_SIZE * OME_OBJ_SIZE] = {0};
-
-/**
- * @brief Initialize the Array with usage inforation.
- * 
- * @param argname desc
- * @return
- */
-bool inUse[OME_OBJ_POOL_SIZE] = {0};
-
-/**
- * @brief Convert a pointer number in an actual pointer.
- * 
- * @param poolNo The pointer number.
- * @return The actual pointer as void*.
- */
-void* OME::ConvertNoToPtr(int16_t poolNo) {
-    if (poolNo >= OME_OBJ_POOL_SIZE || poolNo < 0) {
-        return nullptr;
-    }
-    else {
-        return BytePool + (poolNo * OME_OBJ_SIZE);
-    }
-}
-
-/**
- * @brief Convert an actual pointer in a pointer number.
- * 
- * @param objPtr The actual pointer.
- * @return The pointer number as int16_t.
- */
-int16_t OME::ConvertPrtToNo(void *objPtr) {
-    int16_t poolNo = -1;
-    for (int16_t i = 0; i < OME_OBJ_POOL_SIZE; i++) {
-        if (ConvertNoToPtr(i) == objPtr) {
-            poolNo = i;
-            break;
-        }
-    }
-    return poolNo;
 }

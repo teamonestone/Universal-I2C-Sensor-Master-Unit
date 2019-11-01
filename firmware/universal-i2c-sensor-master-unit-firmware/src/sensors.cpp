@@ -139,7 +139,7 @@ bool Sensors::updateSenor(int8_t sensorNo) {
 bool Sensors::updateAllSensors() {
     bool noError = true;
     for (int8_t i = 0; i < SENSORS_POOL_SIZE; i++){
-        if (_sensors[i].used && _sensors[i].active && !_sensors[i].busy) {
+        if (_sensors[i].used && _sensors[i].active) {
             noError &= _sensors[i].update(&_sensors[i]);
         }
     }

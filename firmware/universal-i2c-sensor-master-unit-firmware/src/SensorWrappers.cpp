@@ -32,7 +32,7 @@ bool SensorWrappers::SW_BNO055::init(Sensor_T::SensorCore *sensor) {
     sensor->sensorReadings[2] = -1;
 
     // set i2c mux port 
-    mux.set_port(sensor->port);
+    Hardware::I2C_MUX::Instance.set_port(sensor->port);
 
     // create the new sensor object 
     sensor->object = OME::GetFreeObjPrt(nullptr);
@@ -72,8 +72,11 @@ bool SensorWrappers::SW_BNO055::update(Sensor_T::SensorCore *sensor) {
         // set busy flag 
         sensor->busy = false;
 
+        // LED
+        Hardware::LEDs::status(1);
+
         // set i2c mux port 
-        mux.set_port(sensor->port);
+        Hardware::I2C_MUX::Instance.set_port(sensor->port);
 
         // read the sensor
         imu::Vector<3> euler = static_cast<Adafruit_BNO055*>(sensor->object)->getVector(Adafruit_BNO055::VECTOR_EULER);
@@ -82,11 +85,14 @@ bool SensorWrappers::SW_BNO055::update(Sensor_T::SensorCore *sensor) {
         sensor->sensorReadings[0] = euler.x();
         sensor->sensorReadings[1] = euler.y();
         sensor->sensorReadings[2] = euler.z();
-        
+
         // reset time of last reading
         sensor->timeOfLastReading = millis();
     }
     
+    // LED
+    Hardware::LEDs::status(0);
+
     return true;
 }
 
@@ -108,7 +114,7 @@ bool SensorWrappers::SW_VL53L0X::init(Sensor_T::SensorCore *sensor) {
     sensor->sensorReadings[2] = -1;
 
     // set i2c mux port 
-    mux.set_port(sensor->port);
+    Hardware::I2C_MUX::Instance.set_port(sensor->port);
 
     // create the new sensor object 
     sensor->object = OME::GetFreeObjPrt(nullptr);
@@ -147,8 +153,11 @@ bool SensorWrappers::SW_VL53L0X::update(Sensor_T::SensorCore*sensor) {
         // set busy flag 
         sensor->busy = false;
 
+        // LED
+        Hardware::LEDs::status(1);
+
         // set i2c mux port 
-        mux.set_port(sensor->port);
+        Hardware::I2C_MUX::Instance.set_port(sensor->port);
 
         // read the sensor
         VL53L0X_RangingMeasurementData_t measure;
@@ -161,12 +170,19 @@ bool SensorWrappers::SW_VL53L0X::update(Sensor_T::SensorCore*sensor) {
         }
         else {
             sensor->sensorReadings[0] = -1;
+
+            // LED
+            Hardware::LEDs::status(0);
+
             return false;
         }
         
         // reset time of last reading
         sensor->timeOfLastReading = millis();
     }
+
+    // LED
+    Hardware::LEDs::status(0);
 
     return true;
 }
@@ -189,7 +205,7 @@ bool SensorWrappers::SW_VL6180X::init(Sensor_T::SensorCore*sensor) {
     sensor->sensorReadings[2] = -1;
 
     // set i2c mux port 
-    mux.set_port(sensor->port);
+    Hardware::I2C_MUX::Instance.set_port(sensor->port);
 
     // create the new sensor object 
     sensor->object = OME::GetFreeObjPrt(nullptr);
@@ -228,8 +244,11 @@ bool SensorWrappers::SW_VL6180X::update(Sensor_T::SensorCore*sensor) {
         // set busy flag 
         sensor->busy = false;
 
+        // LED
+        Hardware::LEDs::status(1);
+
         // set i2c mux port 
-        mux.set_port(sensor->port);
+        Hardware::I2C_MUX::Instance.set_port(sensor->port);
 
         // read the sensor
         uint8_t range = static_cast<Adafruit_VL6180X*>(sensor->object)->readRange();
@@ -242,12 +261,19 @@ bool SensorWrappers::SW_VL6180X::update(Sensor_T::SensorCore*sensor) {
         }
         else {
             sensor->sensorReadings[0] = -1;
+
+            // LED
+            Hardware::LEDs::status(0);
+
             return false;
         }
         
         // reset time of last reading
         sensor->timeOfLastReading = millis();
     }
+
+    // LED
+    Hardware::LEDs::status(0);
 
     return true;
 }
@@ -270,7 +296,7 @@ bool SensorWrappers::SW_SRF08::init(Sensor_T::SensorCore*sensor) {
     sensor->sensorReadings[2] = -1;
 
     // set i2c mux port 
-    mux.set_port(sensor->port);
+    Hardware::I2C_MUX::Instance.set_port(sensor->port);
 
     // create the new sensor object 
     sensor->object = OME::GetFreeObjPrt(nullptr);
@@ -282,6 +308,15 @@ bool SensorWrappers::SW_SRF08::init(Sensor_T::SensorCore*sensor) {
     return noError;
 }
 bool SensorWrappers::SW_SRF08::activate(Sensor_T::SensorCore*sensor) {
+
+    // set i2c mux port 
+    Hardware::I2C_MUX::Instance.set_port(sensor->port);
+
+    // an initial measurment
+    static_cast<SRF08*>(sensor->object)->readRangeUNSAFE();
+
+    // reset time of last reading
+    sensor->timeOfLastReading = millis();
 
     // set the flag
     sensor->active = true;
@@ -309,20 +344,25 @@ bool SensorWrappers::SW_SRF08::update(Sensor_T::SensorCore*sensor) {
         // set busy flag 
         sensor->busy = false;
 
+        // LED
+        Hardware::LEDs::status(1);
+
         // set i2c mux port 
-        mux.set_port(sensor->port);
+        Hardware::I2C_MUX::Instance.set_port(sensor->port);
 
         // read the sensor
-        imu::Vector<3> euler = static_cast<Adafruit_BNO055*>(sensor->object)->getVector(Adafruit_BNO055::VECTOR_EULER);
-
         // update readings
-        sensor->sensorReadings[0] = euler.x();
-        sensor->sensorReadings[1] = euler.y();
-        sensor->sensorReadings[2] = euler.z();
+        sensor->sensorReadings[0] = static_cast<SRF08*>(sensor->object)->getDistance();
+
+        // start new measure cycle
+        static_cast<SRF08*>(sensor->object)->readRangeUNSAFE();
         
         // reset time of last reading
         sensor->timeOfLastReading = millis();
     }
+
+    // LED
+    Hardware::LEDs::status(0);
 
     return true;
 }
