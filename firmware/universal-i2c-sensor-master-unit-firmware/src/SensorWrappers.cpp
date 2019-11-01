@@ -43,11 +43,8 @@ bool SW_BNO055::init(Sensor_T::SensorCore *sensor) {
     sensor->timeOfLastReading = 0;
 
     // create the new sensor object 
-    Adafruit_BNO055 *_BNO055 = static_cast<Adafruit_BNO055*>(OME::GetFreeObjPrt(nullptr));
-    *_BNO055 = Adafruit_BNO055(-1, BNO055_I2C_ADDRESS);
-
-    // linking pointers
-    sensor->object = _BNO055;
+    sensor->object = OME::GetFreeObjPrt(nullptr);
+    *static_cast<Adafruit_BNO055*>(sensor->object) = Adafruit_BNO055(-1, BNO055_I2C_ADDRESS);
 
     // sensor specific init
     noError &= static_cast<Adafruit_BNO055*>(sensor->object)->begin();
@@ -80,11 +77,8 @@ bool SW_VL53L0X::init(Sensor_T::SensorCore *sensor) {
     sensor->timeOfLastReading = 0;
 
     // create the new sensor object 
-    Adafruit_VL53L0X *_VL53L0X = static_cast<Adafruit_VL53L0X*>(OME::GetFreeObjPrt(nullptr));
-    *_VL53L0X = Adafruit_VL53L0X();
-
-    // linking pointers
-    sensor->object = _VL53L0X;
+    sensor->object = OME::GetFreeObjPrt(nullptr);
+    *static_cast<Adafruit_VL53L0X*>(sensor->object) = Adafruit_VL53L0X();
 
     // sensor specific init
     noError &= static_cast<Adafruit_VL53L0X*>(sensor->object)->begin();
@@ -117,11 +111,8 @@ bool SW_VL6180X::init(Sensor_T::SensorCore*sensor) {
     sensor->timeOfLastReading = 0;
 
     // create the new sensor object 
-    Adafruit_VL6180X *_VL6180X = static_cast<Adafruit_VL6180X*>(OME::GetFreeObjPrt(nullptr));
-    *_VL6180X = Adafruit_VL6180X();
-
-    // linking pointers
-    sensor->object = _VL6180X;
+    sensor->object = OME::GetFreeObjPrt(nullptr);
+    *static_cast<Adafruit_VL6180X*>(sensor->object) = Adafruit_VL6180X();
 
     // sensor specific init
     noError &= static_cast<Adafruit_VL6180X*>(sensor->object)->begin();
@@ -154,12 +145,9 @@ bool SW_SRF08::init(Sensor_T::SensorCore*sensor) {
     sensor->timeOfLastReading = 0;
 
     // create the new sensor object 
-    SRF08 *_SRF08 = static_cast<SRF08*>(OME::GetFreeObjPrt(nullptr));
-    *_SRF08 = SRF08(SRF08_I2C_ADDRESS);
+    sensor->object = OME::GetFreeObjPrt(nullptr);
+    *static_cast<SRF08*>(sensor->object) = SRF08(SRF08_I2C_ADDRESS);
 
-    // linking pointers
-    sensor->object = _SRF08;
-    
     // sensor specific init
     /*noError &=*/ static_cast<SRF08*>(sensor->object)->init();
 
