@@ -24,43 +24,59 @@
 /////////////
 // Defines //
 /////////////
+
 #define SENSORS_READING_VECT_SIZE 4		///< Defines how many different reading values a sensor can provide.
+
 
 ///////////////
 // Namespace //
 ///////////////
 
+/**
+ * @namespace Sensor_T
+ * 
+ * @brief Namspace for the complex sensor objects.
+ */
 namespace Sensor_T {
 
+    /**
+     * @enum SensorType
+     * 
+     * @brief Enum of all supportet sensor model names.
+     */
     enum SensorType {NONE, BNO055_T, VL53L0X_T, VL6180X_T, SRF08_T, CMPS10_T};
 
-    // data structur for a sensor
+    /**
+     * @struct SensorCore
+     * 
+     * @brief The complex sensor object that represents a real sensor.
+     */
     struct SensorCore{
 
         // general stuff
-        uint8_t port;
-        SensorType type;
+        uint8_t port;           ///< The physical port (0-7) where the sensor is connected.
+        SensorType type;        ///< The model of the sensor.
 
         // sensor object
-        void *object;
+        void *object;           ///< Pointer to the sensor object.
 
         // readings
-        float sensorReadings[SENSORS_READING_VECT_SIZE];
+        float sensorReadings[SENSORS_READING_VECT_SIZE];        ///< Array to store the readings of the sensor.
 
         // timing
-        uint32_t timeOfLastReading;
-        uint32_t readingIntervall;
+        uint32_t timeOfLastReading;             ///< The system time at which the sensor was last read.
+        uint32_t readingIntervall;              ///< The minimum time interval for a reading cycle.
         
         // flags
-        bool busy;
-        bool active;
-        bool used;
+        bool busy;                              ///< Flag that indicates if the sensor is busy.
+        bool active;                            ///< Flag that indicates if the sensor is active.
+        bool used;                              ///< Flag that indicates if the sensor object is used.
 
         // functions
-        bool (*init)(SensorCore*);
-        bool (*activate)(SensorCore*);
-        bool (*deactivate)(SensorCore*);
-        bool (*update)(SensorCore*);
+        bool (*init)(SensorCore*);              ///< Function pointer for the init function.
+        bool (*activate)(SensorCore*);          ///< Function pointer for the activate function.
+        bool (*deactivate)(SensorCore*);        ///< Function pointer for the deactivate function.
+        bool (*update)(SensorCore*);            ///< Function pointer for the update function.
     };
 }
 

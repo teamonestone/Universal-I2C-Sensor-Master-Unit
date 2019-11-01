@@ -30,7 +30,7 @@
 ////////////////////
 // global objects //
 ////////////////////
-Sensors Sensors;
+Sensors MySensors;
 
 /////////////
 // "setup" //
@@ -51,5 +51,5 @@ void setup() {
 /////////////////
 
 void loop() {
-
+    MySensors.updateAllSensors();
 }

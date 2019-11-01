@@ -29,6 +29,10 @@
 #define OME_OBJ_SIZE 32			///< Define for object size (in bytes).
 #define OME_OBJ_POOL_SIZE 8		///< Definie for pool size.
 
+///////////
+// Class //
+///////////
+
 /**
  * @class OME
  * 
