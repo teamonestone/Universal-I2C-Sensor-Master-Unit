@@ -35,7 +35,7 @@ namespace Sensor_T {
     enum SensorType {NONE, BNO055_T, VL53L0X_T, VL6180X_T, SRF08_T, CMPS10_T};
 
     // data structur for a sensor
-    typedef struct SensorCore{
+    struct SensorCore{
 
         // general stuff
         uint8_t port;
