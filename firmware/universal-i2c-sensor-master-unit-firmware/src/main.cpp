@@ -13,7 +13,7 @@
 #include <utility.h>
 
 // sensor stuff
-#include <sensors.h>
+#include <Sensors.h>
 
 /////////////
 // Defines //

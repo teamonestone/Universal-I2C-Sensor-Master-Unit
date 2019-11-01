@@ -14,20 +14,35 @@
 #ifndef SENSORWRAPPERS_h
 #define SENSORWRAPPERS_h
 
-// Includes
+//////////////
+// Includes //
+//////////////
+
+// basic Includes
 #include <inttypes.h>
-#include <Sensors.h>
+
+// memory management
+#include "ObjectManagementEngine.h"
+
+// sensor types
+#include "Sensor_T.h"
 
 // sensor libs
-#include <Adafruit_BNO055.h>
-#include <Adafruit_Sensor.h>
-#include <Adafruit_VL53L0X.h>
-#include <Adafruit_VL6180X.h>
-#include <SRF08.h>
+#include "Adafruit_BNO055.h"
+#include "Adafruit_Sensor.h"
+#include "Adafruit_VL53L0X.h"
+#include "Adafruit_VL6180X.h"
+#include "SRF08.h"
 
-// Defines
-#define OME_OBJ_SIZE 64			///< Define for object size (in bytes).
-#define OME_OBJ_POOL_SIZE 8		///< Definie for pool size.
+
+/////////////
+// Defines //
+/////////////
+
+
+///////////////
+// Namespace //
+///////////////
 
 /**
  * @namespace SensorWrappers
@@ -42,10 +57,10 @@ namespace SensorWrappers
      * @brief The namespace is dedecated to all commands for the BNO055.
      */
     namespace SW_BNO055 {
-        bool init(Sensors::Sensor sensor);
-        bool activate(Sensors::Sensor sensor);
-        bool deactivate(Sensors::Sensor sensor);
-        bool update(Sensors::Sensor sensor);
+        bool init(Sensor_T::SensorCore *sensor);
+        bool activate(Sensor_T::SensorCore *sensor);
+        bool deactivate(Sensor_T::SensorCore *sensor);
+        bool update(Sensor_T::SensorCore *sensor);
     }
 
     /**
@@ -54,10 +69,10 @@ namespace SensorWrappers
      * @brief The namespace is dedecated to all commands for the VL53L0X.
      */
     namespace SW_VL53L0X {
-        bool init(Sensors::Sensor sensor);
-        bool activate(Sensors::Sensor sensor);
-        bool deactivate(Sensors::Sensor sensor);
-        bool update(Sensors::Sensor sensor);
+        bool init(Sensor_T::SensorCore *sensor);
+        bool activate(Sensor_T::SensorCore *sensor);
+        bool deactivate(Sensor_T::SensorCore *sensor);
+        bool update(Sensor_T::SensorCore *sensor);
     }
 
     /**
@@ -66,10 +81,10 @@ namespace SensorWrappers
      * @brief The namespace is dedecated to all commands for the VL6180X.
      */
     namespace SW_VL6180X {
-        bool init(Sensors::Sensor sensor);
-        bool activate(Sensors::Sensor sensor);
-        bool deactivate(Sensors::Sensor sensor);
-        bool update(Sensors::Sensor sensor);
+        bool init(Sensor_T::SensorCore *sensor);
+        bool activate(Sensor_T::SensorCore *sensor);
+        bool deactivate(Sensor_T::SensorCore *sensor);
+        bool update(Sensor_T::SensorCore *sensor);
     }
 
     /**
@@ -78,10 +93,10 @@ namespace SensorWrappers
      * @brief The namespace is dedecated to all commands for the SRF08.
      */
     namespace SW_SRF08 {
-        bool init(Sensors::Sensor sensor);
-        bool activate(Sensors::Sensor sensor);
-        bool deactivate(Sensors::Sensor sensor);
-        bool update(Sensors::Sensor sensor);
+        bool init(Sensor_T::SensorCore *sensor);
+        bool activate(Sensor_T::SensorCore *sensor);
+        bool deactivate(Sensor_T::SensorCore *sensor);
+        bool update(Sensor_T::SensorCore *sensor);
     }
 }
 

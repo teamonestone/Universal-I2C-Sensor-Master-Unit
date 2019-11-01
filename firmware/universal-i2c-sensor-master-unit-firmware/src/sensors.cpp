@@ -1,9 +1,6 @@
 // associated header
 #include <Sensors.h>
 
-// include
-#include <SensorWrappers.h>
-
 // namespaces
 using namespace SensorWrappers;
 
@@ -16,7 +13,7 @@ Sensors::~Sensors() {
     ;
 }
 
-int8_t Sensors::connectSensor(uint8_t port, SensorType type) {
+int8_t Sensors::connectSensor(uint8_t port, Sensor_T::SensorType type) {
     int8_t sensorNo = getFreeSensor();
     if (sensorNo >= SENSORS_POOL_SIZE || sensorNo < 0) {
         return -1;
@@ -25,14 +22,10 @@ int8_t Sensors::connectSensor(uint8_t port, SensorType type) {
     bool noError = true;
     switch (type) {
 
-        case BNO055_T:
-
-            // create the new sensor object 
-            Adafruit_BNO055 *_BNO055 = (Adafruit_BNO055*) OME::GetFreeObjPrt(nullptr);
-            *_BNO055 = Adafruit_BNO055();
-
+        case Sensor_T::SensorType::BNO055_T:
+            
             // linking pointers
-            _sensors[sensorNo].object = _BNO055;
+            _sensors[sensorNo].object = nullptr;
             _sensors[sensorNo].init = &(SW_BNO055::init);
             _sensors[sensorNo].activate = &(SW_BNO055::activate);
             _sensors[sensorNo].deactivate = &(SW_BNO055::deactivate);
@@ -40,22 +33,18 @@ int8_t Sensors::connectSensor(uint8_t port, SensorType type) {
 
             // running the setup
             noError = true;
-            noError &= _sensors[sensorNo].init(_sensors[sensorNo]);
-            noError &= _sensors[sensorNo].activate(_sensors[sensorNo]);
+            noError &= _sensors[sensorNo].init(&_sensors[sensorNo]);
+            noError &= _sensors[sensorNo].activate(&_sensors[sensorNo]);
             if (!noError) {
                 return -1;
             }
 
             break;
 
-        case VL53L0X_T:
-
-            // create the new sensor object 
-            Adafruit_VL53L0X *_VL53L0X = (Adafruit_VL53L0X*) OME::GetFreeObjPrt(nullptr);
-            *_VL53L0X = Adafruit_VL53L0X();
+        case Sensor_T::SensorType::VL53L0X_T:
 
             // linking pointers
-            _sensors[sensorNo].object = _VL53L0X;
+            _sensors[sensorNo].object = nullptr;
             _sensors[sensorNo].init = &(SW_VL53L0X::init);
             _sensors[sensorNo].activate = &(SW_VL53L0X::activate);
             _sensors[sensorNo].deactivate = &(SW_VL53L0X::deactivate);
@@ -63,22 +52,18 @@ int8_t Sensors::connectSensor(uint8_t port, SensorType type) {
 
             // running the setup
             noError = true;
-            noError &= _sensors[sensorNo].init(_sensors[sensorNo]);
-            noError &= _sensors[sensorNo].activate(_sensors[sensorNo]);
+            noError &= _sensors[sensorNo].init(&_sensors[sensorNo]);
+            noError &= _sensors[sensorNo].activate(&_sensors[sensorNo]);
             if (!noError) {
                 return -1;
             }
            
             break;
 
-        case VL6180X_T:
-
-            // create the new sensor object 
-            Adafruit_VL6180X *_VL6180X = (Adafruit_VL6180X*) OME::GetFreeObjPrt(nullptr);
-            *_VL6180X = Adafruit_VL6180X();
+        case Sensor_T::SensorType::VL6180X_T:
 
             // linking pointers
-            _sensors[sensorNo].object = _VL6180X;
+            _sensors[sensorNo].object = nullptr;
             _sensors[sensorNo].init = &(SW_VL6180X::init);
             _sensors[sensorNo].activate = &(SW_VL6180X::activate);
             _sensors[sensorNo].deactivate = &(SW_VL6180X::deactivate);
@@ -86,22 +71,18 @@ int8_t Sensors::connectSensor(uint8_t port, SensorType type) {
 
             // running the setup
             noError = true;
-            noError &= _sensors[sensorNo].init(_sensors[sensorNo]);
-            noError &= _sensors[sensorNo].activate(_sensors[sensorNo]);
+            noError &= _sensors[sensorNo].init(&_sensors[sensorNo]);
+            noError &= _sensors[sensorNo].activate(&_sensors[sensorNo]);
             if (!noError) {
                 return -1;
             }
             
             break;
 
-        case SRF08_T:
-
-            // create the new sensor object 
-            SRF08 *_SRF08 = (SRF08*) OME::GetFreeObjPrt(nullptr);
-            *_SRF08 = SRF08();
-
+        case Sensor_T::SensorType::SRF08_T:
+            
             // linking pointers
-            _sensors[sensorNo].object = _SRF08;
+            _sensors[sensorNo].object = nullptr;
             _sensors[sensorNo].init = &(SW_SRF08::init);
             _sensors[sensorNo].activate = &(SW_SRF08::activate);
             _sensors[sensorNo].deactivate = &(SW_SRF08::deactivate);
@@ -109,21 +90,20 @@ int8_t Sensors::connectSensor(uint8_t port, SensorType type) {
 
             // running the setup
             noError = true;
-            noError &= _sensors[sensorNo].init(_sensors[sensorNo]);
-            noError &= _sensors[sensorNo].activate(_sensors[sensorNo]);
+            noError &= _sensors[sensorNo].init(&_sensors[sensorNo]);
+            noError &= _sensors[sensorNo].activate(&_sensors[sensorNo]);
             if (!noError) {
                 return -1;
             }
             
             break;
 
-        case CMPS10_T:
-        case NONE:
+        case Sensor_T::SensorType::CMPS10_T:
+        case Sensor_T::SensorType::NONE:
         default:
             return -1;
             break;
     }
-
     return sensorNo;
 }
 
@@ -132,7 +112,7 @@ bool Sensors::activateSensor(int8_t sensorNo) {
         return false;
     }
 
-    return _sensors[sensorNo].activate(_sensors[sensorNo]);
+    return _sensors[sensorNo].activate(&_sensors[sensorNo]);
 }
 
 bool Sensors::deactivateSensor(int8_t sensorNo) {
@@ -140,7 +120,7 @@ bool Sensors::deactivateSensor(int8_t sensorNo) {
         return false;
     }
 
-    return _sensors[sensorNo].deactivate(_sensors[sensorNo]);
+    return _sensors[sensorNo].deactivate(&_sensors[sensorNo]);
 }
 
 bool Sensors::disconnectSensor(int8_t sensorNo) {
@@ -149,6 +129,7 @@ bool Sensors::disconnectSensor(int8_t sensorNo) {
     }
 
     // @ToDo
+    return true;
 }
 
 bool Sensors::updateSenor(int8_t sensorNo) {
@@ -156,14 +137,14 @@ bool Sensors::updateSenor(int8_t sensorNo) {
         return false;
     }
 
-    return _sensors[sensorNo].update(_sensors[sensorNo]);
+    return _sensors[sensorNo].update(&_sensors[sensorNo]);
 }
 
 bool Sensors::updateAllSensors() {
     bool noError = true;
     for (int8_t i = 0; i < SENSORS_POOL_SIZE; i++){
         if (_sensors[i].used && _sensors[i].active && !_sensors[i].busy) {
-            noError &= _sensors[i].update(_sensors[i]);
+            noError &= _sensors[i].update(&_sensors[i]);
         }
     }
     return noError;

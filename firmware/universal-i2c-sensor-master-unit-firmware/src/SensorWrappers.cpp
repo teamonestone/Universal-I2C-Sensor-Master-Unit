@@ -14,6 +14,19 @@
 // includes 
 #include <SensorWrappers.h>
 
+// Defines
+#define BNO055_REFRESH_TIMING 100
+#define BNO055_I2C_ADDRESS 0x28
+
+#define VL53L0X_REFRESH_TIMING 100
+#define VL53L0X_I2C_ADDRESS 
+
+#define VL6180X_REFRESH_TIMING 100
+#define VL6180X_I2C_ADDRESS 
+
+#define SRF08_REFRESH_TIMING 100
+#define SRF08_I2C_ADDRESS 112
+
 // namesapce
 using namespace SensorWrappers;
 
@@ -21,66 +34,128 @@ using namespace SensorWrappers;
 // BNO055 //
 ////////////
 
-bool SW_BNO055::init(Sensors::Sensor sensor) {
+bool SW_BNO055::init(Sensor_T::SensorCore *sensor) {
 
+    // timing settigns
+    sensor->readingIntervall = BNO055_REFRESH_TIMING;
+    sensor->timeOfLastReading = 0;
+
+    // create the new sensor object 
+    Adafruit_BNO055 *_BNO055 = (Adafruit_BNO055*) OME::GetFreeObjPrt(nullptr);
+    *_BNO055 = Adafruit_BNO055(-1, BNO055_I2C_ADDRESS);
+
+    // linking pointers
+    sensor->object = _BNO055;
+
+    // sensor specific init
+
+    return true;
 }
-bool SW_BNO055::activate(Sensors::Sensor sensor){
+bool SW_BNO055::activate(Sensor_T::SensorCore *sensor){
 
+    return true;
 }
-bool SW_BNO055::deactivate(Sensors::Sensor sensor) {
+bool SW_BNO055::deactivate(Sensor_T::SensorCore *sensor) {
 
+    return true;
 }
-bool SW_BNO055::update(Sensors::Sensor sensor) {
+bool SW_BNO055::update(Sensor_T::SensorCore *sensor) {
 
+    return true;
 }
 
 /////////////
 // VL53L0X //
 /////////////
 
-bool SW_VL53L0X::init(Sensors::Sensor sensor) {
+bool SW_VL53L0X::init(Sensor_T::SensorCore *sensor) {
 
+    // timing settigns
+    sensor->readingIntervall = VL53L0X_REFRESH_TIMING;
+    sensor->timeOfLastReading = 0;
+
+    // create the new sensor object 
+    Adafruit_VL53L0X *_VL53L0X = (Adafruit_VL53L0X*) OME::GetFreeObjPrt(nullptr);
+    *_VL53L0X = Adafruit_VL53L0X();
+
+    // linking pointers
+    sensor->object = _VL53L0X;
+
+    return true;
 }
-bool SW_VL53L0X::activate(Sensors::Sensor sensor) {
+bool SW_VL53L0X::activate(Sensor_T::SensorCore*sensor) {
 
+    return true;
 }
-bool SW_VL53L0X::deactivate(Sensors::Sensor sensor) {
+bool SW_VL53L0X::deactivate(Sensor_T::SensorCore*sensor) {
 
+    return true;
 }
-bool SW_VL53L0X::update(Sensors::Sensor sensor) {
+bool SW_VL53L0X::update(Sensor_T::SensorCore*sensor) {
 
+    return true;
 }
 
 /////////////
 // VL6180X //
 /////////////
 
-bool SW_VL6180X::init(Sensors::Sensor sensor) {
+bool SW_VL6180X::init(Sensor_T::SensorCore*sensor) {
 
+    // timing settigns
+    sensor->readingIntervall = VL6180X_REFRESH_TIMING;
+    sensor->timeOfLastReading = 0;
+
+    // create the new sensor object 
+    Adafruit_VL6180X *_VL6180X = (Adafruit_VL6180X*) OME::GetFreeObjPrt(nullptr);
+    *_VL6180X = Adafruit_VL6180X();
+
+    // linking pointers
+    sensor->object = _VL6180X;
+
+    return true;
 }
-bool SW_VL6180X::activate(Sensors::Sensor sensor) {
+bool SW_VL6180X::activate(Sensor_T::SensorCore*sensor) {
 
+    return true;
 }
-bool SW_VL6180X::deactivate(Sensors::Sensor sensor) {
+bool SW_VL6180X::deactivate(Sensor_T::SensorCore*sensor) {
 
+    return true;
 }
-bool SW_VL6180X::update(Sensors::Sensor sensor) {
+bool SW_VL6180X::update(Sensor_T::SensorCore*sensor) {
 
+    return true;
 }
 
 ///////////
 // SRF08 //
 ///////////
 
-bool SW_SRF08::init(Sensors::Sensor sensor) {
+bool SW_SRF08::init(Sensor_T::SensorCore*sensor) {
 
-}
-bool SW_SRF08::activate(Sensors::Sensor sensor) {
+    // timing settigns
+    sensor->readingIntervall = SRF08_REFRESH_TIMING;
+    sensor->timeOfLastReading = 0;
 
-}
-bool SW_SRF08::deactivate(Sensors::Sensor sensor) {
+    // create the new sensor object 
+    SRF08 *_SRF08 = (SRF08*) OME::GetFreeObjPrt(nullptr);
+    *_SRF08 = SRF08();
 
+    // linking pointers
+    sensor->object = _SRF08;
+
+    return true;
 }
-bool SW_SRF08::update(Sensors::Sensor sensor) {
-    
+bool SW_SRF08::activate(Sensor_T::SensorCore*sensor) {
+
+    return true;
+}
+bool SW_SRF08::deactivate(Sensor_T::SensorCore*sensor) {
+
+    return true;
+}
+bool SW_SRF08::update(Sensor_T::SensorCore*sensor) {
+
+    return true;
 }
