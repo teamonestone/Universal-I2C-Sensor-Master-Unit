@@ -25,7 +25,7 @@
 // Defines //
 /////////////
 
-#define SENSORS_READING_VECT_SIZE 4		///< Defines how many different reading values a sensor can provide.
+#define SENSORS_READING_VECT_SIZE 3		///< Defines how many different reading values a sensor can provide.
 
 
 ///////////////
