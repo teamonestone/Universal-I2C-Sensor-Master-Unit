@@ -22,8 +22,8 @@
 /////////////
 // Defines //
 /////////////
-#define SENSORS_POOL_SIZE 8
-#define SENSORS_READING_VECT_SIZE 4
+#define SENSORS_POOL_SIZE 8				///< Defines how many different sensors can be connected at any time.
+#define SENSORS_READING_VECT_SIZE 4		///< Defines how many different reading values a sensor can provide.
 
 ///////////
 // Types //
@@ -35,6 +35,11 @@ enum SensorType {NONE, BNO055_T, VL53L0X_T, VL6180X_T, SRF08_T, CMPS10_T};
 // Sensor-Class //
 //////////////////
 
+/**
+ * @class Sensors
+ * 
+ * @brief Class for managing the different sensors
+ */
 class Sensors
 {
 // Begin PUBLIC ------------------------------------------------------------------

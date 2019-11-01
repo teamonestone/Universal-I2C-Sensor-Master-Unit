@@ -16,3 +16,6 @@
 [submodule "firmware/universal-i2c-sensor-master-unit-firmware/lib/SRF08"]
 	path = firmware/universal-i2c-sensor-master-unit-firmware/lib/SRF08
 	url = https://github.com/teamonestone/SRF08.git
+[submodule "firmware/universal-i2c-sensor-master-unit-firmware/lib/arduino-util"]
+	path = firmware/universal-i2c-sensor-master-unit-firmware/lib/arduino-util
+	url = https://github.com/teamonestone/arduino-util.git
