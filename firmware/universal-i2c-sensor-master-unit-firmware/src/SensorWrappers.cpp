@@ -42,6 +42,15 @@ bool SensorWrappers::SW_BNO055::init(Sensor_T::SensorCore *sensor) {
     noError &= static_cast<Adafruit_BNO055*>(sensor->object)->begin();
     /*noError &=*/ static_cast<Adafruit_BNO055*>(sensor->object)->setExtCrystalUse(true);
 
+    if (!noError) {
+        // LED
+        Hardware::LEDs::error(1);
+
+        // Log
+        Hardware::SoftSerial::Instance.begin(9600);
+        Hardware::SoftSerial::Instance.println("[Error]: BNO055 init faild!");
+    }
+
     return noError;
 }
 bool SensorWrappers::SW_BNO055::activate(Sensor_T::SensorCore *sensor) {
@@ -123,6 +132,15 @@ bool SensorWrappers::SW_VL53L0X::init(Sensor_T::SensorCore *sensor) {
     // sensor specific init
     noError &= static_cast<Adafruit_VL53L0X*>(sensor->object)->begin();
 
+    if (!noError) {
+        // LED
+        Hardware::LEDs::error(1);
+
+        // Log
+        Hardware::SoftSerial::Instance.begin(9600);
+        Hardware::SoftSerial::Instance.println("[Error]: VL53L0X init faild!");
+    }
+
     return noError;
 }
 bool SensorWrappers::SW_VL53L0X::activate(Sensor_T::SensorCore*sensor) {
@@ -173,6 +191,11 @@ bool SensorWrappers::SW_VL53L0X::update(Sensor_T::SensorCore*sensor) {
 
             // LED
             Hardware::LEDs::status(0);
+            Hardware::LEDs::error(1);
+
+            // Log
+            Hardware::SoftSerial::Instance.begin(9600);
+            Hardware::SoftSerial::Instance.println("[Error]: VL53L0X reading faild!");
 
             return false;
         }
@@ -213,6 +236,15 @@ bool SensorWrappers::SW_VL6180X::init(Sensor_T::SensorCore*sensor) {
 
     // sensor specific init
     noError &= static_cast<Adafruit_VL6180X*>(sensor->object)->begin();
+
+    if (!noError) {
+        // LED
+        Hardware::LEDs::error(1);
+
+        // Log
+        Hardware::SoftSerial::Instance.begin(9600);
+        Hardware::SoftSerial::Instance.println("[Error]: VL6180X init faild!");
+    }
 
     return noError;
 }
@@ -264,6 +296,11 @@ bool SensorWrappers::SW_VL6180X::update(Sensor_T::SensorCore*sensor) {
 
             // LED
             Hardware::LEDs::status(0);
+            Hardware::LEDs::error(1);
+
+            // Log
+            Hardware::SoftSerial::Instance.begin(9600);
+            Hardware::SoftSerial::Instance.println("[Error]: VL6180X reading faild!");
 
             return false;
         }
