@@ -1,6 +1,13 @@
 // associated header
 #include <Sensors.h>
 
+// include
+#include <SensorWrappers.h>
+
+// namespaces
+using namespace SensorWrappers;
+
+
 Sensors::Sensors() {
     ;
 }
@@ -26,10 +33,10 @@ int8_t Sensors::connectSensor(uint8_t port, SensorType type) {
 
             // linking pointers
             _sensors[sensorNo].object = _BNO055;
-            _sensors[sensorNo].init = nullptr;
-            _sensors[sensorNo].activate = nullptr;
-            _sensors[sensorNo].deactivate = nullptr;
-            _sensors[sensorNo].update = nullptr;
+            _sensors[sensorNo].init = &(SW_BNO055::init);
+            _sensors[sensorNo].activate = &(SW_BNO055::activate);
+            _sensors[sensorNo].deactivate = &(SW_BNO055::deactivate);
+            _sensors[sensorNo].update = &(SW_BNO055::update);
 
             // running the setup
             noError = true;
@@ -49,10 +56,10 @@ int8_t Sensors::connectSensor(uint8_t port, SensorType type) {
 
             // linking pointers
             _sensors[sensorNo].object = _VL53L0X;
-            _sensors[sensorNo].init = nullptr;
-            _sensors[sensorNo].activate = nullptr;
-            _sensors[sensorNo].deactivate = nullptr;
-            _sensors[sensorNo].update = nullptr;
+            _sensors[sensorNo].init = &(SW_VL53L0X::init);
+            _sensors[sensorNo].activate = &(SW_VL53L0X::activate);
+            _sensors[sensorNo].deactivate = &(SW_VL53L0X::deactivate);
+            _sensors[sensorNo].update = &(SW_VL53L0X::update);
 
             // running the setup
             noError = true;
@@ -72,10 +79,10 @@ int8_t Sensors::connectSensor(uint8_t port, SensorType type) {
 
             // linking pointers
             _sensors[sensorNo].object = _VL6180X;
-            _sensors[sensorNo].init = nullptr;
-            _sensors[sensorNo].activate = nullptr;
-            _sensors[sensorNo].deactivate = nullptr;
-            _sensors[sensorNo].update = nullptr;
+            _sensors[sensorNo].init = &(SW_VL6180X::init);
+            _sensors[sensorNo].activate = &(SW_VL6180X::activate);
+            _sensors[sensorNo].deactivate = &(SW_VL6180X::deactivate);
+            _sensors[sensorNo].update = &(SW_VL6180X::update);
 
             // running the setup
             noError = true;
@@ -95,10 +102,10 @@ int8_t Sensors::connectSensor(uint8_t port, SensorType type) {
 
             // linking pointers
             _sensors[sensorNo].object = _SRF08;
-            _sensors[sensorNo].init = nullptr;
-            _sensors[sensorNo].activate = nullptr;
-            _sensors[sensorNo].deactivate = nullptr;
-            _sensors[sensorNo].update = nullptr;
+            _sensors[sensorNo].init = &(SW_SRF08::init);
+            _sensors[sensorNo].activate = &(SW_SRF08::activate);
+            _sensors[sensorNo].deactivate = &(SW_SRF08::deactivate);
+            _sensors[sensorNo].update = &(SW_SRF08::update);
 
             // running the setup
             noError = true;
@@ -141,7 +148,7 @@ bool Sensors::disconnectSensor(int8_t sensorNo) {
         return false;
     }
 
-    // @TODO
+    // @ToDo
 }
 
 bool Sensors::updateSenor(int8_t sensorNo) {
@@ -164,5 +171,6 @@ bool Sensors::updateAllSensors() {
 
 
 int8_t Sensors::getFreeSensor() {
+    // @ToDo
     return 0;
 }
