@@ -14,11 +14,19 @@
 #ifndef OBJECTMANAGEMENTENGINE_h
 #define OBJECTMANAGEMENTENGINE_h
 
-// Includes
+//////////////
+// Includes //
+//////////////
+
+// basic Includes
 #include <inttypes.h>
 
-// Defines
-#define OME_OBJ_SIZE 64			///< Define for object size (in bytes).
+
+/////////////
+// Defines //
+/////////////
+
+#define OME_OBJ_SIZE 32			///< Define for object size (in bytes).
 #define OME_OBJ_POOL_SIZE 8		///< Definie for pool size.
 
 /**
@@ -34,7 +42,7 @@ class OME
         // functions
         static void* GetFreeObjPrt(int16_t *poolNo);		// Get a a pointer to the next free availiale memory slice.
         static bool FreePtr(void *objPrt);                	// Mark a blocked memory slice as free based on a given pointer.
-        static bool FreePtr(int16_t poolNo);				// Mark a blocked memory slice as free based on the pointer number.
+        static bool FreePtr(int16_t poolNo);			// Mark a blocked memory slice as free based on the pointer number.
 
 // End PUBLIC --------------------------------------------------------------------
 

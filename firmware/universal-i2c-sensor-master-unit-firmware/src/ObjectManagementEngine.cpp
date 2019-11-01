@@ -11,7 +11,7 @@
  * @copyright This project is released under the GNU General Public License v3.0
  */
 
-// includes 
+// associated header
 #include <ObjectManagementEngine.h>
 
 //////////////////////

@@ -17,6 +17,7 @@
 /////////////
 // Defines //
 /////////////
+
 #define SENSORS_POOL_SIZE 8				///< Defines how many different sensors can be connected at any time.
 
 

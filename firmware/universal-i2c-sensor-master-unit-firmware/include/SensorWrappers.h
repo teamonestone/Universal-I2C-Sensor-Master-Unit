@@ -39,6 +39,18 @@
 // Defines //
 /////////////
 
+#define BNO055_REFRESH_TIMING 100
+#define BNO055_I2C_ADDRESS 0x28
+
+#define VL53L0X_REFRESH_TIMING 100
+//#define VL53L0X_I2C_ADDRESS 
+
+#define VL6180X_REFRESH_TIMING 100
+//#define VL6180X_I2C_ADDRESS 
+
+#define SRF08_REFRESH_TIMING 100
+#define SRF08_I2C_ADDRESS 112
+
 
 ///////////////
 // Namespace //
