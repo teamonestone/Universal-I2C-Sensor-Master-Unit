@@ -59,6 +59,8 @@ class Sensors
 
 		// private functions
 		int8_t getFreeSensor();
+		bool checkForRange(int8_t sensorNo);
+		bool resetSensor(int8_t sensorNo);
 
 // End PRIVATE -------------------------------------------------------------------
 

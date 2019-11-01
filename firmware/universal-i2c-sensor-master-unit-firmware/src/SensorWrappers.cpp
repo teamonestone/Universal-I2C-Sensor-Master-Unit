@@ -24,12 +24,6 @@ bool SensorWrappers::SW_BNO055::init(Sensor_T::SensorCore *sensor) {
 
     // timing settigns
     sensor->readingIntervall = BNO055_REFRESH_TIMING;
-    sensor->timeOfLastReading = 0;
-
-    // reset readings
-    sensor->sensorReadings[0] = -1;
-    sensor->sensorReadings[1] = -1;
-    sensor->sensorReadings[2] = -1;
 
     // set i2c mux port 
     Hardware::I2C_MUX::Instance.set_port(sensor->port);
@@ -48,7 +42,9 @@ bool SensorWrappers::SW_BNO055::init(Sensor_T::SensorCore *sensor) {
 
         // Log
         Hardware::SoftSerial::Instance.begin(9600);
-        Hardware::SoftSerial::Instance.println("[Error]: BNO055 init faild!");
+        Hardware::SoftSerial::Instance.print("E");
+        Hardware::SoftSerial::Instance.println(ERRORS::Code::SensorInitBNO055);
+
     }
 
     return noError;
@@ -73,14 +69,9 @@ bool SensorWrappers::SW_BNO055::update(Sensor_T::SensorCore *sensor) {
         return false;
     }
     else if (millis() < sensor->timeOfLastReading + sensor->readingIntervall) {
-        // set busy flag 
-        sensor->busy = true;
         return false;
     }
     else {
-        // set busy flag 
-        sensor->busy = false;
-
         // LED
         Hardware::LEDs::status(1);
 
@@ -115,12 +106,6 @@ bool SensorWrappers::SW_VL53L0X::init(Sensor_T::SensorCore *sensor) {
 
     // timing settigns
     sensor->readingIntervall = VL53L0X_REFRESH_TIMING;
-    sensor->timeOfLastReading = 0;
-
-    // reset readings
-    sensor->sensorReadings[0] = -1;
-    sensor->sensorReadings[1] = -1;
-    sensor->sensorReadings[2] = -1;
 
     // set i2c mux port 
     Hardware::I2C_MUX::Instance.set_port(sensor->port);
@@ -138,7 +123,8 @@ bool SensorWrappers::SW_VL53L0X::init(Sensor_T::SensorCore *sensor) {
 
         // Log
         Hardware::SoftSerial::Instance.begin(9600);
-        Hardware::SoftSerial::Instance.println("[Error]: VL53L0X init faild!");
+        Hardware::SoftSerial::Instance.print("E");
+        Hardware::SoftSerial::Instance.println(ERRORS::Code::SensorInitVL53L0X);
     }
 
     return noError;
@@ -163,14 +149,9 @@ bool SensorWrappers::SW_VL53L0X::update(Sensor_T::SensorCore*sensor) {
         return false;
     }
     else if (millis() < sensor->timeOfLastReading + sensor->readingIntervall) {
-        // set busy flag 
-        sensor->busy = true;
         return false;
     }
     else {
-        // set busy flag 
-        sensor->busy = false;
-
         // LED
         Hardware::LEDs::status(1);
 
@@ -195,7 +176,8 @@ bool SensorWrappers::SW_VL53L0X::update(Sensor_T::SensorCore*sensor) {
 
             // Log
             Hardware::SoftSerial::Instance.begin(9600);
-            Hardware::SoftSerial::Instance.println("[Error]: VL53L0X reading faild!");
+            Hardware::SoftSerial::Instance.print("W");
+            Hardware::SoftSerial::Instance.println(WARNINGS::Code::SensorReadingVL53L0X);
 
             return false;
         }
@@ -220,12 +202,6 @@ bool SensorWrappers::SW_VL6180X::init(Sensor_T::SensorCore*sensor) {
 
     // timing settigns
     sensor->readingIntervall = VL6180X_REFRESH_TIMING;
-    sensor->timeOfLastReading = 0;
-
-    // reset readings
-    sensor->sensorReadings[0] = -1;
-    sensor->sensorReadings[1] = -1;
-    sensor->sensorReadings[2] = -1;
 
     // set i2c mux port 
     Hardware::I2C_MUX::Instance.set_port(sensor->port);
@@ -243,7 +219,8 @@ bool SensorWrappers::SW_VL6180X::init(Sensor_T::SensorCore*sensor) {
 
         // Log
         Hardware::SoftSerial::Instance.begin(9600);
-        Hardware::SoftSerial::Instance.println("[Error]: VL6180X init faild!");
+        Hardware::SoftSerial::Instance.print("E");
+        Hardware::SoftSerial::Instance.println(ERRORS::Code::SensorInitVL6180X);
     }
 
     return noError;
@@ -268,14 +245,9 @@ bool SensorWrappers::SW_VL6180X::update(Sensor_T::SensorCore*sensor) {
         return false;
     }
     else if (millis() < sensor->timeOfLastReading + sensor->readingIntervall) {
-        // set busy flag 
-        sensor->busy = true;
         return false;
     }
     else {
-        // set busy flag 
-        sensor->busy = false;
-
         // LED
         Hardware::LEDs::status(1);
 
@@ -300,7 +272,8 @@ bool SensorWrappers::SW_VL6180X::update(Sensor_T::SensorCore*sensor) {
 
             // Log
             Hardware::SoftSerial::Instance.begin(9600);
-            Hardware::SoftSerial::Instance.println("[Error]: VL6180X reading faild!");
+            Hardware::SoftSerial::Instance.print("W");
+            Hardware::SoftSerial::Instance.println(WARNINGS::Code::SensorReadingVL6180X);
 
             return false;
         }
@@ -325,12 +298,6 @@ bool SensorWrappers::SW_SRF08::init(Sensor_T::SensorCore*sensor) {
 
     // timing settigns
     sensor->readingIntervall = SRF08_REFRESH_TIMING;
-    sensor->timeOfLastReading = 0;
-
-    // reset readings
-    sensor->sensorReadings[0] = -1;
-    sensor->sensorReadings[1] = -1;
-    sensor->sensorReadings[2] = -1;
 
     // set i2c mux port 
     Hardware::I2C_MUX::Instance.set_port(sensor->port);
@@ -373,14 +340,9 @@ bool SensorWrappers::SW_SRF08::update(Sensor_T::SensorCore*sensor) {
         return false;
     }
     else if (millis() < sensor->timeOfLastReading + sensor->readingIntervall) {
-        // set busy flag 
-        sensor->busy = true;
         return false;
     }
     else {
-        // set busy flag 
-        sensor->busy = false;
-
         // LED
         Hardware::LEDs::status(1);
 

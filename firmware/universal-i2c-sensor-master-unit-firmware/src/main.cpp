@@ -44,7 +44,14 @@ void setup() {
   // hardware i2c
   Wire.begin(SMU_MAIN_ADDRESS);
 
-  MySensors.connectSensor(0, Sensor_T::SensorType::SRF08_T);
+  MySensors.connectSensor(0, Sensor_T::SensorType::BNO055_T);
+  MySensors.connectSensor(1, Sensor_T::SensorType::VL53L0X_T);
+  MySensors.connectSensor(2, Sensor_T::SensorType::VL6180X_T);
+  MySensors.connectSensor(3, Sensor_T::SensorType::SRF08_T);
+  MySensors.connectSensor(4, Sensor_T::SensorType::SRF08_T);
+  MySensors.connectSensor(5, Sensor_T::SensorType::SRF08_T);
+  MySensors.connectSensor(6, Sensor_T::SensorType::SRF08_T);
+  MySensors.connectSensor(7, Sensor_T::SensorType::SRF08_T);
 
 }
 

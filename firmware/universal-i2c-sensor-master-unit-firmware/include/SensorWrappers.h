@@ -25,6 +25,9 @@
 // i2c stuff
 #include "Hardware.h"
 
+// error
+#include "ERRORS.h"
+
 // memory management
 #include "ObjectManagementEngine.h"
 

@@ -44,7 +44,7 @@ namespace Sensor_T {
      * 
      * @brief Enum of all supportet sensor model names.
      */
-    enum SensorType {NONE, BNO055_T, VL53L0X_T, VL6180X_T, SRF08_T, CMPS10_T};
+    enum SensorType {NONE, BNO055_T, VL53L0X_T, VL6180X_T, SRF08_T};
 
     /**
      * @struct SensorCore
@@ -68,9 +68,7 @@ namespace Sensor_T {
         uint32_t readingIntervall;              ///< The minimum time interval for a reading cycle.
         
         // flags
-        bool busy;                              ///< Flag that indicates if the sensor is busy.
         bool active;                            ///< Flag that indicates if the sensor is active.
-        bool used;                              ///< Flag that indicates if the sensor object is used.
 
         // functions
         bool (*init)(SensorCore*);              ///< Function pointer for the init function.
