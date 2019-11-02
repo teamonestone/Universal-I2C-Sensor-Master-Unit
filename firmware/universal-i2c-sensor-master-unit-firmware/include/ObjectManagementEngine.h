@@ -21,13 +21,34 @@
 // basic Includes
 #include <inttypes.h>
 
+// errors
+#include "ERRORS.h"
+
 
 /////////////
 // Defines //
 /////////////
 
-#define OME_OBJ_SIZE 32			///< Define for object size (in bytes).
-#define OME_OBJ_POOL_SIZE 8		///< Definie for pool size.
+//#define OME_OBJ_SIZE 438				///< Define for object size (in bytes).
+#define OME_OBJ_POOL_SIZE 8				///< Define the maximun number of objects the OME has to handel (must be smaller than 128).
+#define OME_OBJ_POOL_SIZE_BYTES 1024	///< Define the maximum size of the memory pool
+
+
+///////////
+// Types //
+///////////
+
+struct ObjInfo {
+	bool inUse = false;
+
+	void *firstMemoryPtr = nullptr;
+	void *lastMemoryPtr = nullptr;
+
+	uint16_t getSize() {
+		return static_cast<uint8_t*>(lastMemoryPtr) - static_cast<uint8_t*>(firstMemoryPtr);
+	}
+};
+
 
 ///////////
 // Class //
@@ -44,9 +65,9 @@ class OME
 	public:
         
         // functions
-        static void* GetFreeObjPrt(int16_t *poolNo);		// Get a a pointer to the next free availiale memory slice.
-        static bool FreePtr(void *objPrt);                	// Mark a blocked memory slice as free based on a given pointer.
-        static bool FreePtr(int16_t poolNo);			// Mark a blocked memory slice as free based on the pointer number.
+        static void* GetFreeObjPrt(uint16_t size, int8_t *poolNo, ERRORS::Code *errorCode);		// Get a a pointer to the next free availiale memory slice.
+        static bool FreePtr(void *objPrt);                	        							// Mark a blocked memory slice as free based on a given pointer.
+        static bool FreePtr(int8_t poolNo);			        									// Mark a blocked memory slice as free based on the pointer number.
 
 // End PUBLIC --------------------------------------------------------------------
 
@@ -58,12 +79,16 @@ class OME
         ~OME();			// Main destructor of the class (private so no instance of this class can be created).
 		
 		// vars & objects
-        static uint8_t BytePool[OME_OBJ_POOL_SIZE * OME_OBJ_SIZE];		// The memory witch gets split into smaller memory slices.
-        static bool inUse[OME_OBJ_POOL_SIZE];							// The array with usage inforation.
+        static uint8_t BytePool[OME_OBJ_POOL_SIZE_BYTES];		// The memory witch gets split into smaller memory slices.
+        static ObjInfo ObjInfos[OME_OBJ_POOL_SIZE];			    // The array with usage inforation.
 
         // functions
-        static void* ConvertNoToPtr(int16_t poolNo);					// Convert a pointer number in an actual pointer.
-        static int16_t ConvertPrtToNo(void *objPtr);					// Convert an actual pointer in a pointer number.
+        static void* ConvertNoToPtr(int8_t poolNo, ERRORS::Code *errorCode);	// Convert a pointer number in an actual pointer.
+        static int8_t ConvertPrtToNo(void *objPtr, ERRORS::Code *errorCode);	// Convert an actual pointer in a pointer number.
+		static bool isInPoolRange(int8_t poolNo);								// Checks if the given pool object number is in the avaliable memory space.
+		static bool isInMemoryRange(void *objPtr);								// Checks if the given pointer is in the avaliable memory space.
+        static int8_t  ptrBelongsToPoolObj(void* objPtr);						// Check if a pointer is part of a used pool object.
+		static void* findFreeMemorySlice(uint16_t size);						// Find a Free memory slices with a given size.
 
 // End PRIVATE -------------------------------------------------------------------
 

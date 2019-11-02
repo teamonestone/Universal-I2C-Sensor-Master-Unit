@@ -43,6 +43,13 @@ namespace ERRORS {
     enum Code {
         None = 0,
         Fatal = 1,
+        OmeError = 10,
+        OmeInvalidObjSize = 11,
+        OmeNoMemorSliceInWishedSizeAvaliable = 12,
+        OmeMaxNumberOfObjInPoolReached = 13,
+        OmePoolObjeOutOfRange = 14,
+        OmeObjPtrOutOfRange = 15,
+        OmeObjPtrIsNotPointingToTheFirstElementOfTheMemorySlice = 16,
         SensorInit = 100,
         SensorInitBNO055 = 101,
         SensorInitVL53L0X = 102,
