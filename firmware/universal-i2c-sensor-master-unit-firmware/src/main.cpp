@@ -39,19 +39,21 @@ Sensors MySensors;
 void setup() {
 
   // hardware serial
-  Serial.begin(SMU_MAIN_BAUD);
+  Serial.begin(9600);
 
   // hardware i2c
   Wire.begin(SMU_MAIN_ADDRESS);
+	Hardware::LEDs::status(1);
+  delay(5000);
+	Hardware::LEDs::status(0);
+	delay(100);
+
+  Serial.println("Hallo1");
 
   MySensors.connectSensor(0, Sensor_T::SensorType::BNO055_T);
-  MySensors.connectSensor(1, Sensor_T::SensorType::VL53L0X_T);
+  //MySensors.connectSensor(1, Sensor_T::SensorType::VL53L0X_T);
   MySensors.connectSensor(2, Sensor_T::SensorType::VL6180X_T);
   MySensors.connectSensor(3, Sensor_T::SensorType::SRF08_T);
-  MySensors.connectSensor(4, Sensor_T::SensorType::SRF08_T);
-  MySensors.connectSensor(5, Sensor_T::SensorType::SRF08_T);
-  MySensors.connectSensor(6, Sensor_T::SensorType::SRF08_T);
-  MySensors.connectSensor(7, Sensor_T::SensorType::SRF08_T);
 
 }
 
@@ -60,9 +62,12 @@ void setup() {
 /////////////////
 
 void loop() {
-    Hardware::LEDs::status(1);
-    MySensors.updateAllSensors();
+    
+    //MySensors.updateAllSensors();
+	Hardware::LEDs::status(1);
+	Serial.println("an");
     delay(100);
     Hardware::LEDs::status(0);
+	Serial.println("aus");
     delay(100);
 }

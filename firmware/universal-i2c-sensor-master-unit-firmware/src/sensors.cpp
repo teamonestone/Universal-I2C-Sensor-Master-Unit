@@ -12,15 +12,25 @@ Sensors::~Sensors() {
 }
 
 int8_t Sensors::connectSensor(uint8_t port, Sensor_T::SensorType type) {
+    Serial.println("Hall2");
     int8_t sensorNo = getFreeSensor();
+    Serial.print("Hallo3 ");
+    Serial.println(sensorNo);
     if (!checkForRange(sensorNo)) {
         return -1;
     }
+    Serial.print("Hallo4");
 
     bool noError = true;
     switch (type) {
 
         case Sensor_T::SensorType::BNO055_T:
+
+        Serial.print("Init BNO055 on Port ");
+    Serial.print(port);
+    Serial.print(" at Sensor No. ");
+    Serial.print(sensorNo);
+    Serial.print(" and Object Ptr ");
             
             // linking pointers
             _sensors[sensorNo].init = &(SensorWrappers::SW_BNO055::init);
@@ -32,6 +42,7 @@ int8_t Sensors::connectSensor(uint8_t port, Sensor_T::SensorType type) {
             noError = true;
             noError &= _sensors[sensorNo].init(&_sensors[sensorNo]);
             noError &= _sensors[sensorNo].activate(&_sensors[sensorNo]);
+            Serial.println ((uint16_t) _sensors[sensorNo].object);
             if (!noError) {
                 return -1;
             }
@@ -39,6 +50,12 @@ int8_t Sensors::connectSensor(uint8_t port, Sensor_T::SensorType type) {
             break;
 
         case Sensor_T::SensorType::VL53L0X_T:
+
+        Serial.print("Init VL53L0X on Port ");
+    Serial.print(port);
+    Serial.print(" at Sensor No. ");
+    Serial.print(sensorNo);
+    Serial.print(" and Object Ptr ");
 
             // linking pointers
             _sensors[sensorNo].init = &(SensorWrappers::SW_VL53L0X::init);
@@ -50,6 +67,7 @@ int8_t Sensors::connectSensor(uint8_t port, Sensor_T::SensorType type) {
             noError = true;
             noError &= _sensors[sensorNo].init(&_sensors[sensorNo]);
             noError &= _sensors[sensorNo].activate(&_sensors[sensorNo]);
+            Serial.println ((uint16_t) _sensors[sensorNo].object);
             if (!noError) {
                 return -1;
             }
@@ -57,6 +75,12 @@ int8_t Sensors::connectSensor(uint8_t port, Sensor_T::SensorType type) {
             break;
 
         case Sensor_T::SensorType::VL6180X_T:
+
+        Serial.print("Init VL6180X on Port ");
+    Serial.print(port);
+    Serial.print(" at Sensor No. ");
+    Serial.print(sensorNo);
+    Serial.print(" and Object Ptr ");
 
             // linking pointers
             _sensors[sensorNo].init = &(SensorWrappers::SW_VL6180X::init);
@@ -68,6 +92,7 @@ int8_t Sensors::connectSensor(uint8_t port, Sensor_T::SensorType type) {
             noError = true;
             noError &= _sensors[sensorNo].init(&_sensors[sensorNo]);
             noError &= _sensors[sensorNo].activate(&_sensors[sensorNo]);
+            Serial.println ((uint16_t) _sensors[sensorNo].object);
             if (!noError) {
                 return -1;
             }
@@ -75,6 +100,12 @@ int8_t Sensors::connectSensor(uint8_t port, Sensor_T::SensorType type) {
             break;
 
         case Sensor_T::SensorType::SRF08_T:
+
+        Serial.print("Init SRF08 on Port ");
+    Serial.print(port);
+    Serial.print(" at Sensor No. ");
+    Serial.print(sensorNo);
+    Serial.print(" and Object Ptr ");
             
             // linking pointers
             _sensors[sensorNo].init = &(SensorWrappers::SW_SRF08::init);
@@ -86,6 +117,7 @@ int8_t Sensors::connectSensor(uint8_t port, Sensor_T::SensorType type) {
             noError = true;
             noError &= _sensors[sensorNo].init(&_sensors[sensorNo]);
             noError &= _sensors[sensorNo].activate(&_sensors[sensorNo]);
+            Serial.println ((uint16_t) _sensors[sensorNo].object);
             if (!noError) {
                 return -1;
             }
@@ -147,7 +179,7 @@ bool Sensors::checkForRange(int8_t sensorNo) {
         return false;
     }
     else {
-        return false;
+        return true;
     }
 }
 
