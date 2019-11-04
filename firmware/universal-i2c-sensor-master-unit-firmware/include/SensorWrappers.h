@@ -72,8 +72,8 @@
  * 
  * @brief This is the parent namespace for all sensor command wrappers.
  */
-namespace SensorWrappers
-{
+namespace SensorWrappers {
+    
     /**
      * @namespace SW_BNO055
      * 

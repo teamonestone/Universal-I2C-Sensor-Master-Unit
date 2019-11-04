@@ -22,15 +22,21 @@ bool SensorWrappers::SW_BNO055::init(Sensor_T::SensorCore *sensor) {
 
     bool noError = true;
 
-    // timing settigns
-    sensor->readingIntervall = BNO055_REFRESH_TIMING;
-
     // set i2c mux port 
     Hardware::I2C_MUX::Instance.set_port(sensor->port);
 
     // create the new sensor object 
     sensor->object = OME::GetFreeObjPrt(BNO055_OBJ_SIZE, nullptr);
+
+    // nullptr check
+    if (sensor->object == nullptr) {
+        return false;
+    }
+
     *static_cast<Adafruit_BNO055*>(sensor->object) = Adafruit_BNO055(-1, BNO055_I2C_ADDRESS);
+
+    // timing settigns
+    sensor->readingIntervall = BNO055_REFRESH_TIMING;
 
     // set sensor type
     sensor->type = Sensor_T::SensorType::BNO055_T;
@@ -107,15 +113,21 @@ bool SensorWrappers::SW_VL53L0X::init(Sensor_T::SensorCore *sensor) {
 
     bool noError = true;
 
-    // timing settigns
-    sensor->readingIntervall = VL53L0X_REFRESH_TIMING;
-
     // set i2c mux port 
     Hardware::I2C_MUX::Instance.set_port(sensor->port);
 
     // create the new sensor object 
     sensor->object = OME::GetFreeObjPrt(VL53L0X_OBJ_SIZE, nullptr);
-    *static_cast<Adafruit_VL53L0X*>(sensor->object) = Adafruit_VL53L0X();
+
+    // nullptr check
+    if (sensor->object == nullptr) {
+        return false;
+    }
+
+    *static_cast<Adafruit_VL53L0X*>(sensor->object) = Adafruit_VL53L0X();   // <- hier geht es nicht mehr weiter mit diesem Sensor 
+
+    // timing settigns
+    sensor->readingIntervall = VL53L0X_REFRESH_TIMING;
 
     // set sensor type
     sensor->type = Sensor_T::SensorType::VL53L0X_T;
@@ -206,15 +218,21 @@ bool SensorWrappers::SW_VL6180X::init(Sensor_T::SensorCore*sensor) {
 
     bool noError = true;
 
-    // timing settigns
-    sensor->readingIntervall = VL6180X_REFRESH_TIMING;
-
     // set i2c mux port 
     Hardware::I2C_MUX::Instance.set_port(sensor->port);
 
     // create the new sensor object 
     sensor->object = OME::GetFreeObjPrt(VL6180X_OBJ_SIZE, nullptr);
+
+    // nullptr check
+    if (sensor->object == nullptr) {
+        return false;
+    }
+
     *static_cast<Adafruit_VL6180X*>(sensor->object) = Adafruit_VL6180X();
+
+    // timing settigns
+    sensor->readingIntervall = VL6180X_REFRESH_TIMING;
 
     // set sensor type
     sensor->type = Sensor_T::SensorType::VL6180X_T;
@@ -305,15 +323,21 @@ bool SensorWrappers::SW_SRF08::init(Sensor_T::SensorCore*sensor) {
 
     bool noError = true;
 
-    // timing settigns
-    sensor->readingIntervall = SRF08_REFRESH_TIMING;
-
     // set i2c mux port 
     Hardware::I2C_MUX::Instance.set_port(sensor->port);
 
     // create the new sensor object 
     sensor->object = OME::GetFreeObjPrt(SRF08_OBJ_SIZE, nullptr);
+
+    // nullptr check
+    if (sensor->object == nullptr) {
+        return false;
+    }
+
     *static_cast<SRF08*>(sensor->object) = SRF08(SRF08_I2C_ADDRESS);
+
+    // timing settigns
+    sensor->readingIntervall = SRF08_REFRESH_TIMING;
 
     // set sensor type
     sensor->type = Sensor_T::SensorType::SRF08_T;

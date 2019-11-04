@@ -77,7 +77,7 @@ namespace Hardware {
      * @brief Namespace for a static object of the SoftwareSerial class.
      */
     namespace SoftSerial {
-        
+
         /**
          * @brief Create a static instance of the SoftwareSerial class.
          * 

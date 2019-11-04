@@ -63,11 +63,15 @@ void setup() {
 
 void loop() {
     
-    //MySensors.updateAllSensors();
-	Hardware::LEDs::status(1);
-	Serial.println("an");
-    delay(100);
-    Hardware::LEDs::status(0);
-	Serial.println("aus");
-    delay(100);
+  Hardware::LEDs::status(1); Serial.println("an");
+  uint32_t time = millis();
+  MySensors.updateAllSensors();
+
+  Serial.print("dT="); Serial.println(millis() - time);
+
+  delay(100);
+
+  Hardware::LEDs::status(0); Serial.println("aus");
+
+  delay(100);
 }
