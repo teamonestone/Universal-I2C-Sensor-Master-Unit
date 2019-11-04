@@ -29,7 +29,7 @@
 #include "ERRORS.h"
 
 // memory management
-#include "ObjectManagementEngine.h"
+#include "OME.h"
 
 // sensor types
 #include "Sensor_T.h"
@@ -48,7 +48,7 @@
 
 #define BNO055_REFRESH_TIMING 100
 #define BNO055_I2C_ADDRESS 0x28
-#define BNO055_OBJ_SIZE 32
+#define BNO055_OBJ_SIZE 12
 
 #define VL53L0X_REFRESH_TIMING 100
 //#define VL53L0X_I2C_ADDRESS 
@@ -56,11 +56,11 @@
 
 #define VL6180X_REFRESH_TIMING 100
 //#define VL6180X_I2C_ADDRESS 
-#define VL6180X_OBJ_SIZE 32
+#define VL6180X_OBJ_SIZE 3
 
 #define SRF08_REFRESH_TIMING 100
 #define SRF08_I2C_ADDRESS 112
-#define SRF08_OBJ_SIZE 32
+#define SRF08_OBJ_SIZE 16
 
 
 ///////////////

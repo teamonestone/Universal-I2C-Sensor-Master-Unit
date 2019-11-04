@@ -10,10 +10,10 @@
 #include <communication.h>
 
 // utility stuff
-#include <utility.h>
+#include "utility.h"
 
 // sensor stuff
-#include <Sensors.h>
+#include "Sensors.h"
 
 /////////////
 // Defines //
@@ -44,7 +44,7 @@ void setup() {
   // hardware i2c
   Wire.begin(SMU_MAIN_ADDRESS);
 	Hardware::LEDs::status(1);
-  delay(5000);
+  delay(10000);
 	Hardware::LEDs::status(0);
 	delay(100);
 
