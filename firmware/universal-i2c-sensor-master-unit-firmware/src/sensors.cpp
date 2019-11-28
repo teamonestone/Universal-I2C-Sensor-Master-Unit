@@ -182,6 +182,14 @@ bool Sensors::updateAllSensors() {
     return noError;
 }
 
+float Sensors::getReading(int8_t sensorNo, uint8_t valueNo) {
+    if (!checkForRange(sensorNo) || valueNo >= SENSORS_READING_VECT_SIZE) {
+        return -1;
+    }
+
+    return _sensors[sensorNo].sensorReadings[valueNo];
+}
+
 bool Sensors::checkForRange(int8_t sensorNo) {
     if (sensorNo >= SENSORS_POOL_SIZE || sensorNo < 0) {
         return false;

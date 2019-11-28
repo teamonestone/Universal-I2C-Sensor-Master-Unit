@@ -47,6 +47,7 @@ class Sensors
 		bool disconnectSensor(int8_t sensorNo);
 		bool updateSenor(int8_t sensorNo);
 		bool updateAllSensors();
+		float getReading(int8_t sensorNo, uint8_t valueNo);
 
 
 // End PUBLIC --------------------------------------------------------------------
