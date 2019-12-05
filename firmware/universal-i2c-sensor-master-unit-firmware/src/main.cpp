@@ -54,10 +54,10 @@ void setup() {
 
   Serial.println("Hallo1");
 
-  BNO055_No = MySensors.connectSensor(0, Sensor_T::SensorType::BNO055_T);
+  //BNO055_No = MySensors.connectSensor(0, Sensor_T::SensorType::BNO055_T);
   //VL53L0X_No = MySensors.connectSensor(1, Sensor_T::SensorType::VL53L0X_T);
-  VL6180X_No = MySensors.connectSensor(2, Sensor_T::SensorType::VL6180X_T);
-  SRF08_No = MySensors.connectSensor(3, Sensor_T::SensorType::SRF08_T);
+  //VL6180X_No = MySensors.connectSensor(2, Sensor_T::SensorType::VL6180X_T);
+  SRF08_No = MySensors.connectSensor(0, Sensor_T::SensorType::SRF08_T);
 
 }
 
