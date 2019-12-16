@@ -26,10 +26,10 @@
 /////////////
 
 #ifndef OME_OBJ_POOL_SIZE
-    #define OME_OBJ_POOL_SIZE 8				///< Define the maximun number of objects the OME has to handel (must be smaller than 128).
+#define OME_OBJ_POOL_SIZE 8				///< Define the maximum number of objects the OME has to handel (must be smaller than 128).
 #endif
 #ifndef OME_OBJ_POOL_SIZE_BYTES
-    #define OME_OBJ_POOL_SIZE_BYTES 1024	///< Define the maximum size of the memory pool
+#define OME_OBJ_POOL_SIZE_BYTES 1024	///< Define the maximum size of the memory pool
 #endif
 
 
@@ -56,7 +56,7 @@ struct ObjInfo {
 /**
  * @class OME
  *
- * @brief This calls manages a given amout of memory that then can be used for other objects.
+ * @brief This calls manages a given amount of memory that then can be used for other objects.
  */
 class OME
 {
@@ -64,7 +64,7 @@ class OME
 public:
 
     // functions
-    static void* GetFreeObjPrt(uint16_t size, int8_t *poolNo);		// Get a a pointer to the next free availiale memory slice.
+    static void* GetFreeObjPrt(uint16_t size, int8_t *poolNo);		// Get a a pointer to the next free available memory slice.
     static bool FreePtr(void *objPrt);                	        	// Mark a blocked memory slice as free based on a given pointer.
     static bool FreePtr(int8_t poolNo);			        			// Mark a blocked memory slice as free based on the pointer number.
 

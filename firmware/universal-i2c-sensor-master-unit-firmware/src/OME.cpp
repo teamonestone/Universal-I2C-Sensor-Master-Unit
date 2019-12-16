@@ -28,8 +28,6 @@ uint8_t OME::BytePool[OME_OBJ_POOL_SIZE_BYTES] = {0};
 /**
  * @brief Initialize the Array with usage information.
  *
- * @param argname desc
- * @return
  */
 ObjInfo OME::ObjInfos[OME_OBJ_POOL_SIZE];
 
@@ -182,7 +180,7 @@ void* OME::GetFreeObjPrt(uint16_t size, int8_t *poolNo) {
             // set obj info
             ObjInfos[i].inUse = true;
             ObjInfos[i].firstMemoryPtr = ptr;
-            ObjInfos[i].lastMemoryPtr = static_cast<uint8_t *>(ptr) + (size - 1);
+            ObjInfos[i].lastMemoryPtr = static_cast<uint8_t *>(ptr) + size;
             if (poolNo != nullptr) {
                 *poolNo = i;
             }

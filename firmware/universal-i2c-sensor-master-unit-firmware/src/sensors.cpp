@@ -20,17 +20,21 @@ int8_t Sensors::connectSensor(uint8_t port, Sensor_T::SensorType type) {
         return -1;
     }
     Serial.print("Hallo4");
+    char s[16] = {0};
 
     bool noError = true;
     switch (type) {
 
         case Sensor_T::SensorType::BNO055_T:
 
+            sprintf(s, "%p", _sensors[sensorNo].object);
+
             Serial.print("Init BNO055 on Port ");
             Serial.print(port);
             Serial.print(" at Sensor No. ");
             Serial.print(sensorNo);
             Serial.print(" and Object Ptr ");
+            Serial.println(s);
             
             // linking pointers
             _sensors[sensorNo].init = &(SensorWrappers::SW_BNO055::init);
@@ -53,11 +57,14 @@ int8_t Sensors::connectSensor(uint8_t port, Sensor_T::SensorType type) {
 
         case Sensor_T::SensorType::VL53L0X_T:
 
+            sprintf(s, "%p", _sensors[sensorNo].object);
+
             Serial.print("Init VL53L0X on Port ");
             Serial.print(port);
             Serial.print(" at Sensor No. ");
             Serial.print(sensorNo);
             Serial.print(" and Object Ptr ");
+            Serial.println(s);
 
             // linking pointers
             _sensors[sensorNo].init = &(SensorWrappers::SW_VL53L0X::init);
@@ -80,11 +87,14 @@ int8_t Sensors::connectSensor(uint8_t port, Sensor_T::SensorType type) {
 
         case Sensor_T::SensorType::VL6180X_T:
 
+            sprintf(s, "%p", _sensors[sensorNo].object);
+
             Serial.print("Init VL6180X on Port ");
             Serial.print(port);
             Serial.print(" at Sensor No. ");
             Serial.print(sensorNo);
             Serial.print(" and Object Ptr ");
+            Serial.println(s);
 
             // linking pointers
             _sensors[sensorNo].init = &(SensorWrappers::SW_VL6180X::init);
@@ -107,11 +117,14 @@ int8_t Sensors::connectSensor(uint8_t port, Sensor_T::SensorType type) {
 
         case Sensor_T::SensorType::SRF08_T:
 
+            sprintf(s, "%p", _sensors[sensorNo].object);
+            
             Serial.print("Init SRF08 on Port ");
             Serial.print(port);
             Serial.print(" at Sensor No. ");
             Serial.print(sensorNo);
             Serial.print(" and Object Ptr ");
+            Serial.println(s);
             
             // linking pointers
             _sensors[sensorNo].init = &(SensorWrappers::SW_SRF08::init);
