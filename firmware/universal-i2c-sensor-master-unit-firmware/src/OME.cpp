@@ -76,7 +76,6 @@ int8_t OME::ConvertPrtToNo(void *objPtr) {
             break;
         }
     }
-
     return poolNo;
 }
 
