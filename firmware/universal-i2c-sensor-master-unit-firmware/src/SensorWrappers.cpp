@@ -320,7 +320,6 @@ bool SensorWrappers::SW_VL6180X::update(Sensor_T::SensorCore*sensor) {
 ///////////
 
 bool SensorWrappers::SW_SRF08::init(Sensor_T::SensorCore*sensor) {
-
     bool noError = true;
 
     // set i2c mux port 
@@ -334,6 +333,7 @@ bool SensorWrappers::SW_SRF08::init(Sensor_T::SensorCore*sensor) {
         return false;
     }
 
+    // init new sensor object
     *static_cast<SRF08*>(sensor->object) = SRF08(SRF08_I2C_ADDRESS);
 
     // timing settigns
@@ -348,12 +348,11 @@ bool SensorWrappers::SW_SRF08::init(Sensor_T::SensorCore*sensor) {
     return noError;
 }
 bool SensorWrappers::SW_SRF08::activate(Sensor_T::SensorCore*sensor) {
-
     // set i2c mux port 
     Hardware::I2C_MUX::Instance.set_port(sensor->port);
 
     // an initial measurment
-    static_cast<SRF08*>(sensor->object)->readRangeUNSAFE();
+    static_cast<SRF08*>(sensor->object)->init();
 
     // reset time of last reading
     sensor->timeOfLastReading = millis();
@@ -364,17 +363,17 @@ bool SensorWrappers::SW_SRF08::activate(Sensor_T::SensorCore*sensor) {
     return true;
 }
 bool SensorWrappers::SW_SRF08::deactivate(Sensor_T::SensorCore*sensor) {
-    
     // set the flag
     sensor->active = false;
     
     return true;
 }
 bool SensorWrappers::SW_SRF08::update(Sensor_T::SensorCore*sensor) {
-    
+    // check if sensor is active
     if (!sensor->active) {
         return false;
     }
+    // check if reading interval is reached
     else if (millis() < sensor->timeOfLastReading + sensor->readingIntervall) {
         return false;
     }
@@ -386,11 +385,12 @@ bool SensorWrappers::SW_SRF08::update(Sensor_T::SensorCore*sensor) {
         Hardware::I2C_MUX::Instance.set_port(sensor->port);
 
         // read the sensor
+        static_cast<SRF08*>(sensor->object)->readRangeUNSAFE();
         // update readings
         sensor->sensorReadings[0] = static_cast<SRF08*>(sensor->object)->getDistance();
 
         // start new measure cycle
-        static_cast<SRF08*>(sensor->object)->readRangeUNSAFE();
+        static_cast<SRF08*>(sensor->object)->startRangeReadingUNSAFE();
         
         // reset time of last reading
         sensor->timeOfLastReading = millis();
