@@ -15,6 +15,8 @@
 // sensor stuff
 #include "Sensors.h"
 
+#include "OME.h"
+
 /////////////
 // Defines //
 /////////////
@@ -52,15 +54,12 @@ void setup() {
 	Hardware::LEDs::status(0);
 	delay(100);
 
-  delay(2000);
-
-  Serial.println("Hallo1");
-
-  BNO055_No = MySensors.connectSensor(0, Sensor_T::SensorType::BNO055_T);
+  //BNO055_No = MySensors.connectSensor(0, Sensor_T::SensorType::BNO055_T);
   //VL53L0X_No = MySensors.connectSensor(1, Sensor_T::SensorType::VL53L0X_T);
-  VL6180X_No = MySensors.connectSensor(2, Sensor_T::SensorType::VL6180X_T);
-  SRF08_No = MySensors.connectSensor(3, Sensor_T::SensorType::SRF08_T);
-
+  //VL6180X_No = MySensors.connectSensor(2, Sensor_T::SensorType::VL6180X_T);
+  //SRF08_No = MySensors.connectSensor(3, Sensor_T::SensorType::SRF08_T);
+  SRF08_No = MySensors.connectSensor(0, Sensor_T::SensorType::SRF08_T);
+  
 }
 
 /////////////////
@@ -69,15 +68,15 @@ void setup() {
 
 void loop() {
     
-  Hardware::LEDs::status(1); Serial.println("an");
-  uint32_t time = millis();
+  Hardware::LEDs::status(1); //Serial.println("an");
+  //uint32_t time = millis();
   MySensors.updateAllSensors();
-  Serial.print("dT="); Serial.println(millis() - time);
+  //Serial.print("dT="); Serial.println(millis() - time);
 
   Serial.print("US-Sensor Reading: "); Serial.println(MySensors.getReading(SRF08_No, 0));
 
   delay(500);
-  Hardware::LEDs::status(0); Serial.println("aus");
+  Hardware::LEDs::status(0); //Serial.println("aus");
 
-  delay(100);
+  delay(500);
 }

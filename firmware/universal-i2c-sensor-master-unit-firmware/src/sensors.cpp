@@ -12,30 +12,22 @@ Sensors::~Sensors() {
 }
 
 int8_t Sensors::connectSensor(uint8_t port, Sensor_T::SensorType type) {
-    Serial.println("Hall2");
+    Serial.println("--- connectSensor ---");
+
     int8_t sensorNo = getFreeSensor();
-    Serial.print("Hallo3 ");
-    Serial.println(sensorNo);
+    Serial.print("sensorNo: "); Serial.println(sensorNo);
+
     if (!checkForRange(sensorNo)) {
         return -1;
     }
-    Serial.print("Hallo4");
+
+    Serial.println("Sensornummer gültig!");
     char s[16] = {0};
 
     bool noError = true;
     switch (type) {
 
         case Sensor_T::SensorType::BNO055_T:
-
-            sprintf(s, "%p", _sensors[sensorNo].object);
-
-            Serial.print("Init BNO055 on Port ");
-            Serial.print(port);
-            Serial.print(" at Sensor No. ");
-            Serial.print(sensorNo);
-            Serial.print(" and Object Ptr ");
-            Serial.println(s);
-            
             // linking pointers
             _sensors[sensorNo].init = &(SensorWrappers::SW_BNO055::init);
             _sensors[sensorNo].activate = &(SensorWrappers::SW_BNO055::activate);
@@ -48,24 +40,21 @@ int8_t Sensors::connectSensor(uint8_t port, Sensor_T::SensorType type) {
             if (noError) {
                 noError &= _sensors[sensorNo].activate(&_sensors[sensorNo]);
             }
-            Serial.println ((uint16_t) _sensors[sensorNo].object);
             if (!noError) {
                 return -1;
             }
 
-            break;
-
-        case Sensor_T::SensorType::VL53L0X_T:
-
             sprintf(s, "%p", _sensors[sensorNo].object);
-
-            Serial.print("Init VL53L0X on Port ");
+            Serial.print("Init BNO055 on Port ");
             Serial.print(port);
             Serial.print(" at Sensor No. ");
             Serial.print(sensorNo);
             Serial.print(" and Object Ptr ");
             Serial.println(s);
 
+            break;
+
+        case Sensor_T::SensorType::VL53L0X_T:
             // linking pointers
             _sensors[sensorNo].init = &(SensorWrappers::SW_VL53L0X::init);
             _sensors[sensorNo].activate = &(SensorWrappers::SW_VL53L0X::activate);
@@ -78,24 +67,21 @@ int8_t Sensors::connectSensor(uint8_t port, Sensor_T::SensorType type) {
             if (noError) {
                 noError &= _sensors[sensorNo].activate(&_sensors[sensorNo]);
             }
-            Serial.println ((uint16_t) _sensors[sensorNo].object);
             if (!noError) {
                 return -1;
             }
            
-            break;
-
-        case Sensor_T::SensorType::VL6180X_T:
-
             sprintf(s, "%p", _sensors[sensorNo].object);
-
-            Serial.print("Init VL6180X on Port ");
+            Serial.print("Init VL53L0X on Port ");
             Serial.print(port);
             Serial.print(" at Sensor No. ");
             Serial.print(sensorNo);
             Serial.print(" and Object Ptr ");
             Serial.println(s);
 
+            break;
+
+        case Sensor_T::SensorType::VL6180X_T:
             // linking pointers
             _sensors[sensorNo].init = &(SensorWrappers::SW_VL6180X::init);
             _sensors[sensorNo].activate = &(SensorWrappers::SW_VL6180X::activate);
@@ -108,24 +94,21 @@ int8_t Sensors::connectSensor(uint8_t port, Sensor_T::SensorType type) {
             if (noError) {
                 noError &= _sensors[sensorNo].activate(&_sensors[sensorNo]);
             }
-            Serial.println ((uint16_t) _sensors[sensorNo].object);
             if (!noError) {
                 return -1;
             }
-            
-            break;
-
-        case Sensor_T::SensorType::SRF08_T:
 
             sprintf(s, "%p", _sensors[sensorNo].object);
-            
-            Serial.print("Init SRF08 on Port ");
+            Serial.print("Init VL6180X on Port ");
             Serial.print(port);
             Serial.print(" at Sensor No. ");
             Serial.print(sensorNo);
             Serial.print(" and Object Ptr ");
             Serial.println(s);
             
+            break;
+
+        case Sensor_T::SensorType::SRF08_T:
             // linking pointers
             _sensors[sensorNo].init = &(SensorWrappers::SW_SRF08::init);
             _sensors[sensorNo].activate = &(SensorWrappers::SW_SRF08::activate);
@@ -138,11 +121,18 @@ int8_t Sensors::connectSensor(uint8_t port, Sensor_T::SensorType type) {
             if (noError) {
                 noError &= _sensors[sensorNo].activate(&_sensors[sensorNo]);
             }
-            Serial.println ((uint16_t) _sensors[sensorNo].object);
             if (!noError) {
                 return -1;
             }
             
+            sprintf(s, "%p", _sensors[sensorNo].object);
+            Serial.print("Init SRF08 on Port ");
+            Serial.print(port);
+            Serial.print(" at Sensor No. ");
+            Serial.print(sensorNo);
+            Serial.print(" and Object Ptr ");
+            Serial.println(s);
+
             break;
 
         case Sensor_T::SensorType::NONE:
@@ -150,6 +140,9 @@ int8_t Sensors::connectSensor(uint8_t port, Sensor_T::SensorType type) {
             return -1;
             break;
     }
+
+    Serial.println("--- connectSensor ---");
+
     return sensorNo;
 }
 
@@ -157,7 +150,6 @@ bool Sensors::activateSensor(int8_t sensorNo) {
     if (!checkForRange(sensorNo)) {
         return false;
     }
-
     return _sensors[sensorNo].activate(&_sensors[sensorNo]);
 }
 
@@ -165,7 +157,6 @@ bool Sensors::deactivateSensor(int8_t sensorNo) {
     if (sensorNo >= SENSORS_POOL_SIZE || sensorNo < 0) {
         return false;
     }
-
     return _sensors[sensorNo].deactivate(&_sensors[sensorNo]);
 }
 
@@ -173,15 +164,13 @@ bool Sensors::disconnectSensor(int8_t sensorNo) {
     if (!checkForRange(sensorNo)) {
         return false;
     }
-
     return resetSensor(sensorNo);
 }
 
 bool Sensors::updateSenor(int8_t sensorNo) {
-    if (!checkForRange(sensorNo)) {
+     if (!checkForRange(sensorNo)) {
         return false;
     }
-
     return _sensors[sensorNo].update(&_sensors[sensorNo]);
 }
 
@@ -199,7 +188,6 @@ float Sensors::getReading(int8_t sensorNo, uint8_t valueNo) {
     if (!checkForRange(sensorNo) || valueNo >= SENSORS_READING_VECT_SIZE) {
         return -1;
     }
-
     return _sensors[sensorNo].sensorReadings[valueNo];
 }
 

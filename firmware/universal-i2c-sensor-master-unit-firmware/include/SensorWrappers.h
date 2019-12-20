@@ -60,7 +60,7 @@
 
 #define SRF08_REFRESH_TIMING 100
 #define SRF08_I2C_ADDRESS 118 
-#define SRF08_OBJ_SIZE 16
+#define SRF08_OBJ_SIZE 18
 
 
 ///////////////
