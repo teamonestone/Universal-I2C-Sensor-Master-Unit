@@ -12,19 +12,24 @@ Sensors::~Sensors() {
 }
 
 int8_t Sensors::connectSensor(uint8_t port, Sensor_T::SensorType type) {
-    Serial.println("--- connectSensor ---");
-
+    // get next free sensor number 
     int8_t sensorNo = getFreeSensor();
-    Serial.print("sensorNo: "); Serial.println(sensorNo);
 
+    // check for valid sensor number
     if (!checkForRange(sensorNo)) {
         return -1;
     }
 
-    Serial.println("Sensornummer gültig!");
+    #ifdef DEBUG
+    // "string" for sprintf
     char s[16] = {0};
+    #endif
+
+    // set sensor port
+    _sensors[sensorNo].port = port;
 
     bool noError = true;
+    // switch sensor type
     switch (type) {
 
         case Sensor_T::SensorType::BNO055_T:
@@ -44,13 +49,15 @@ int8_t Sensors::connectSensor(uint8_t port, Sensor_T::SensorType type) {
                 return -1;
             }
 
+            #ifdef DEBUG
             sprintf(s, "%p", _sensors[sensorNo].object);
-            Serial.print("Init BNO055 on Port ");
-            Serial.print(port);
-            Serial.print(" at Sensor No. ");
-            Serial.print(sensorNo);
-            Serial.print(" and Object Ptr ");
-            Serial.println(s);
+            Hardware::SoftSerial::Instance.print("Init BNO055 on Port ");
+            Hardware::SoftSerial::Instance.print(port);
+            Hardware::SoftSerial::Instance.print(" at Sensor No. ");
+            Hardware::SoftSerial::Instance.print(sensorNo);
+            Hardware::SoftSerial::Instance.print(" and Object Ptr ");
+            Hardware::SoftSerial::Instance.println(s);
+            #endif
 
             break;
 
@@ -71,13 +78,15 @@ int8_t Sensors::connectSensor(uint8_t port, Sensor_T::SensorType type) {
                 return -1;
             }
            
+            #ifdef DEBUG
             sprintf(s, "%p", _sensors[sensorNo].object);
-            Serial.print("Init VL53L0X on Port ");
-            Serial.print(port);
-            Serial.print(" at Sensor No. ");
-            Serial.print(sensorNo);
-            Serial.print(" and Object Ptr ");
-            Serial.println(s);
+            Hardware::SoftSerial::Instance.print("Init VL53L0X on Port ");
+            Hardware::SoftSerial::Instance.print(port);
+            Hardware::SoftSerial::Instance.print(" at Sensor No. ");
+            Hardware::SoftSerial::Instance.print(sensorNo);
+            Hardware::SoftSerial::Instance.print(" and Object Ptr ");
+            Hardware::SoftSerial::Instance.println(s);
+            #endif
 
             break;
 
@@ -98,13 +107,15 @@ int8_t Sensors::connectSensor(uint8_t port, Sensor_T::SensorType type) {
                 return -1;
             }
 
+            #ifdef DEBUG
             sprintf(s, "%p", _sensors[sensorNo].object);
-            Serial.print("Init VL6180X on Port ");
-            Serial.print(port);
-            Serial.print(" at Sensor No. ");
-            Serial.print(sensorNo);
-            Serial.print(" and Object Ptr ");
-            Serial.println(s);
+            Hardware::SoftSerial::Instance.print("Init VL6180X on Port ");
+            Hardware::SoftSerial::Instance.print(port);
+            Hardware::SoftSerial::Instance.print(" at Sensor No. ");
+            Hardware::SoftSerial::Instance.print(sensorNo);
+            Hardware::SoftSerial::Instance.print(" and Object Ptr ");
+            Hardware::SoftSerial::Instance.println(s);
+            #endif
             
             break;
 
@@ -125,13 +136,15 @@ int8_t Sensors::connectSensor(uint8_t port, Sensor_T::SensorType type) {
                 return -1;
             }
             
+            #ifdef DEBUG
             sprintf(s, "%p", _sensors[sensorNo].object);
-            Serial.print("Init SRF08 on Port ");
-            Serial.print(port);
-            Serial.print(" at Sensor No. ");
-            Serial.print(sensorNo);
-            Serial.print(" and Object Ptr ");
-            Serial.println(s);
+            Hardware::SoftSerial::Instance.print("Init SRF08 on Port ");
+            Hardware::SoftSerial::Instance.print(port);
+            Hardware::SoftSerial::Instance.print(" at Sensor No. ");
+            Hardware::SoftSerial::Instance.print(sensorNo);
+            Hardware::SoftSerial::Instance.print(" and Object Ptr ");
+            Hardware::SoftSerial::Instance.println(s);
+            #endif
 
             break;
 
@@ -140,9 +153,7 @@ int8_t Sensors::connectSensor(uint8_t port, Sensor_T::SensorType type) {
             return -1;
             break;
     }
-
-    Serial.println("--- connectSensor ---");
-
+    
     return sensorNo;
 }
 
