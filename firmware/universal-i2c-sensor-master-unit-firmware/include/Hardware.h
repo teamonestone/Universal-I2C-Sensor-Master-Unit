@@ -55,7 +55,7 @@ namespace Hardware {
     // functions //
     ///////////////
 
-    static void initHardwarePins();
+    void initHardwarePins();
 
 
     //////////////////////
