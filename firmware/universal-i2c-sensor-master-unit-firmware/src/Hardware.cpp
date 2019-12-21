@@ -15,12 +15,21 @@
 #include "Hardware.h"
 
 /**
+ * @brief Initializes the pin-modes.
+ * 
+ */
+void Hardware::initHardwarePins() {
+    pinMode(ERROR_LED_PIN, OUTPUT);
+    pinMode(STATUS_LED_PIN, OUTPUT);
+}
+
+/**
  * @brief Toggel the error led.
  * 
  * @param state 1 = led on, 0 = led off
  */
 void Hardware::LEDs::error(bool state) {
-    digitalWrite(12, state);
+    digitalWrite(ERROR_LED_PIN, state);
 }
 
 /**
@@ -29,5 +38,5 @@ void Hardware::LEDs::error(bool state) {
  * @param state 1 = led on, 0 = led off
  */
 void Hardware::LEDs::status(bool state) {
-    digitalWrite(13, state);
+    digitalWrite(STATUS_LED_PIN, state);
 }

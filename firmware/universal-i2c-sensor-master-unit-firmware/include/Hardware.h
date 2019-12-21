@@ -34,7 +34,10 @@
 // Defines //
 /////////////
 
-#define I2C_MUX_ADR     ///< Defines the i2c address of the mux
+#define I2C_MUX_ADR             //< Defines the i2c address of the mux
+
+#define ERROR_LED_PIN 12        //< Defines the pin number of the error led
+#define STATUS_LED_PIN 13       //< Defines the pin number of the status led
 
 
 ///////////////
@@ -47,7 +50,18 @@
  * @brief Namspace for hardware related stuff.
  */
 namespace Hardware {
-    
+
+    ///////////////
+    // functions //
+    ///////////////
+
+    static void initHardwarePins();
+
+
+    //////////////////////
+    // Sub - Namespaces //
+    //////////////////////
+
     /**
      * @namespace I2C_MUX
      * 
