@@ -7,7 +7,7 @@
 
 // communication libraries
 #include <Wire.h>
-#include <communication.h>
+#include "Communication.h"
 
 // utility stuff
 #include "arduino-util.h"
