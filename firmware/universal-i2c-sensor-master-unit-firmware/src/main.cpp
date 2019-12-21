@@ -10,7 +10,7 @@
 #include <communication.h>
 
 // utility stuff
-#include "utility.h"
+#include "arduino-util.h"
 
 // sensor stuff
 #include "Sensors.h"
