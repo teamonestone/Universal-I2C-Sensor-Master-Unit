@@ -14,17 +14,6 @@
 #ifndef COMMUNICATION_H
 #define COMMUNICATION_H
 
-/**
- * @protocol Serail Message Format.
- * @brief The forat for all messages send over the serial port to controll the SMU board.
- * 
- * |-----------------|-------------|-----------------------|----------|-----------------|
- * | '~' as Preambel | MessageType | 0 - 251 Bytes of Data | Checksum | '#' as End-Sign |
- * |      1 Char     |   1 Byte    |     0 - 251 Bytes     |  1 Byte  |      1 Char     |
- * |-----------------|-------------|-----------------------|----------|-----------------|
- * 
- */
-
 //////////////
 // Includes //
 //////////////
@@ -37,7 +26,6 @@ class Communication
 {
 // Begin PUBLIC ------------------------------------------------------------------
 	public:
-		uint8_t getChecksum(uint8_t* dataArray, uint8_t lenght);
 
 // End PUBLIC --------------------------------------------------------------------
 
