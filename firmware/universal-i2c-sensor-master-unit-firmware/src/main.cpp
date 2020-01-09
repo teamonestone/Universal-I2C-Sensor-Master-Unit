@@ -61,10 +61,10 @@ void setup() {
   Wire.begin(SMU_MAIN_I2C_ADDRESS);
   delay(10000);
 
-  BNO055_No = MySensors.connectSensor(0, Sensor_T::SensorType::BNO055_T);
+  //BNO055_No = MySensors.connectSensor(0, Sensor_T::SensorType::BNO055_T);
   //VL53L0X_No = MySensors.connectSensor(1, Sensor_T::SensorType::VL53L0X_T);
-  //VL6180X_No = MySensors.connectSensor(2, Sensor_T::SensorType::VL6180X_T);
-  SRF08_No = MySensors.connectSensor(3, Sensor_T::SensorType::SRF08_T);
+  VL6180X_No = MySensors.connectSensor(2, Sensor_T::SensorType::VL6180X_T);
+  //SRF08_No = MySensors.connectSensor(3, Sensor_T::SensorType::SRF08_T);
   
 }
 
@@ -79,7 +79,9 @@ void loop() {
   MySensors.updateAllSensors();
   //Serial.print("dT="); Serial.println(millis() - time);
 
-  Serial.print("US-Sensor Reading: "); Serial.println(MySensors.getReading(SRF08_No, 0));
+  //Serial.print("US-Sensor Reading: "); Serial.println(MySensors.getReading(SRF08_No, 0));
+  //Serial.print("BNO-Sensor Reading: "); Serial.println(MySensors.getReading(BNO055_No, 0));
+  Serial.print("LASER-Sensor Reading: "); Serial.println(MySensors.getReading(VL6180X_No, 0));
 
   delay(100);
   Hardware::LEDs::status(0); //Serial.println("aus");
