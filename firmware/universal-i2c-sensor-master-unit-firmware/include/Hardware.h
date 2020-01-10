@@ -19,7 +19,7 @@
 //////////////
 
 // basic Includes
-#include <Arduino.h>
+#include "Arduino.h"
 #include <inttypes.h>
 
 // i2c stuff

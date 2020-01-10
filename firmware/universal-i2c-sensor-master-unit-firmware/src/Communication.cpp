@@ -13,3 +13,68 @@
 
 // associated header
 #include "Communication.h"
+
+// used namespaces
+using namespace communication;
+using namespace SMU_Com_Backend;
+
+bool communication::processRecMsg(Message* msg, Sensors* mySensors) {
+
+    // msgAnswer
+    Message msgAnswer;
+
+    switch(msg->getMsgType()) {
+        
+        case MessageType::NONE :
+
+        break;
+
+		case MessageType::ACK_FAULT :
+        
+        break;
+
+		case MessageType::ACK :
+
+        break;
+
+		case MessageType::PONG :
+
+        break;
+
+		case MessageType::GET_STATUS :
+        
+        break;
+
+		case MessageType::GET_ERROR :
+		
+        break;
+
+        case MessageType::RESET :
+
+        break;
+
+		case MessageType::INIT_SENSOR :
+
+        break;
+
+        case MessageType::SET_ACTIVE :
+
+        break;
+
+		case MessageType::AUTO_UPDATE :
+		
+        break;
+        
+        case MessageType::MAN_UPDATE :
+
+        break;
+    }
+
+    if (msgAnswer.getMsgType() != MessageType::NONE) {
+        sendMessage(msgAnswer);
+        return true;
+    }
+    else {
+        return false;
+    }
+}

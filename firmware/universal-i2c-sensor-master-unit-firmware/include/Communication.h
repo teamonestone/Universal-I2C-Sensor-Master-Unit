@@ -19,10 +19,33 @@
 //////////////
 
 // basic Includes
+#include "Arduino.h"
 #include <inttypes.h>
-#include <Arduino.h>
 
-class Communication
+// communication backend
+#include "SMU-Communication-Backend.h"
+
+
+/////////////
+// Defines //
+/////////////
+
+
+/////////////
+// Members //
+/////////////
+
+/**
+ * @namespace communication
+ * 
+ * @brief Namespace for SMU-Communication related stuff.
+ */
+namespace communication
+{
+	bool processRecMsg(Message* msg, Sensors* mySensors);
+}
+
+/*class Communication
 {
 // Begin PUBLIC ------------------------------------------------------------------
 	public:
@@ -34,5 +57,6 @@ class Communication
 
 // End PRIVATE -------------------------------------------------------------------
 };
+*/
 
 #endif

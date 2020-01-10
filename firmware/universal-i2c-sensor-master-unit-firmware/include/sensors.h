@@ -5,9 +5,9 @@
 // Includes //
 //////////////
 
-// basic includes 
+// basic Includes
+#include "Arduino.h"
 #include <inttypes.h>
-#include <Arduino.h>
 
 // include the sensor types and warppers
 #include "Sensor_T.h"
