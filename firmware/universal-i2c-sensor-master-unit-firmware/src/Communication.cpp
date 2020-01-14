@@ -26,7 +26,7 @@ bool communication::processRecMsg(Message* msg, Sensors* mySensors) {
     switch(msg->getMsgType()) {
         
         case MessageType::NONE :
-
+            break;
         break;
 
 		case MessageType::ACK_FAULT :
@@ -66,6 +66,10 @@ bool communication::processRecMsg(Message* msg, Sensors* mySensors) {
         break;
         
         case MessageType::MAN_UPDATE :
+
+        break;
+
+        default:
 
         break;
     }
