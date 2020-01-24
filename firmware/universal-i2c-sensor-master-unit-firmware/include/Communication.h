@@ -42,6 +42,8 @@
  */
 namespace communication
 {
+	bool checkForMessage();
+
 	bool processRecMsg(Message* msg, Sensors* mySensors);
 }
 

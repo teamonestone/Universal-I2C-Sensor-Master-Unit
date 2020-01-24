@@ -18,50 +18,82 @@
 using namespace communication;
 using namespace SMU_Com_Backend;
 
+void communication::checkForMessage() {
+
+    // check if enought data is in the serial buffer
+    if (_SMU_COM_BACKEND_SERIAL_INTERFACE.availiable() >= 4) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
 bool communication::processRecMsg(Message* msg, Sensors* mySensors) {
 
     // msgAnswer
     Message msgAnswer;
 
+    // evaluate the received message
     switch(msg->getMsgType()) {
         
         case MessageType::NONE :
-            break;
+            return true;
         break;
 
 		case MessageType::ACK_FAULT :
-        
+            return false;       // @ToDo: impl.
         break;
 
 		case MessageType::ACK :
-
+            return true;        // @ToDo: impl.
         break;
 
 		case MessageType::PONG :
 
         break;
 
-		case MessageType::GET_STATUS :
+		case MessageType::G_STATUS :
         
         break;
 
-		case MessageType::GET_ERROR :
+		case MessageType::G_COM_ERROR :
+		
+        break;
+
+        case MessageType::G_SMU_ERROR :
 		
         break;
 
         case MessageType::RESET :
+            msgAnswer.
+        break;
 
+        case MessageType::FIRMWARE_V :
+		
+        break;
+
+        case MessageType::COM_BACK_V :
+		
         break;
 
 		case MessageType::INIT_SENSOR :
 
         break;
 
-        case MessageType::SET_ACTIVE :
+        case MessageType::S_SEN_ACTIVE :
 
         break;
 
-		case MessageType::AUTO_UPDATE :
+        case MessageType::G_SEN_ACTIVE :
+
+        break;
+
+		case MessageType::S_AUTO_UPDATE :
+		
+        break;
+
+        case MessageType::G_AUTO_UPDATE :
 		
         break;
         
@@ -69,12 +101,18 @@ bool communication::processRecMsg(Message* msg, Sensors* mySensors) {
 
         break;
 
-        default:
+        case MessageType::READ_SENSOR :
 
+        break;
+
+        case MessageType::ERROR :
+        default:
+            return false;
         break;
     }
 
-    if (msgAnswer.getMsgType() != MessageType::NONE) {
+    // send answer back
+    if (msgAnswer.getMsgType() != MessageType::NONE && msgAnswer.getMsgType() != MessageType::ERROR) {
         sendMessage(msgAnswer);
         return true;
     }
