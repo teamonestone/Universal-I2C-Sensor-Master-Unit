@@ -16,9 +16,9 @@
 
 // used namespaces
 using namespace communication;
-using namespace SMU_Com_Backend;
+using namespace smu_com_backend;
 
-void communication::checkForMessage() {
+bool communication::checkForMessage() {
 
     // check if enought data is in the serial buffer
     if (_SMU_COM_BACKEND_SERIAL_INTERFACE.availiable() >= 4) {
