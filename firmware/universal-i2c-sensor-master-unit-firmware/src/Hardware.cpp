@@ -18,7 +18,12 @@
  * @brief Initializes the pin-modes.
  * 
  */
-void Hardware::initHardwarePins() {
+void hardware::initHardware() {
+
+    // init serial interface for logging
+    SERIAL2LOG.begin(SERIAL2LOG_BAUD);
+
+    // setup pins
     pinMode(ERROR_LED_PIN, OUTPUT);
     pinMode(STATUS_LED_PIN, OUTPUT);
 }
@@ -28,7 +33,7 @@ void Hardware::initHardwarePins() {
  * 
  * @param state 1 = led on, 0 = led off
  */
-void Hardware::LEDs::error(bool state) {
+void hardware::leds::error(bool state) {
     digitalWrite(ERROR_LED_PIN, state);
 }
 
@@ -37,6 +42,6 @@ void Hardware::LEDs::error(bool state) {
  * 
  * @param state 1 = led on, 0 = led off
  */
-void Hardware::LEDs::status(bool state) {
+void hardware::leds::status(bool state) {
     digitalWrite(STATUS_LED_PIN, state);
 }

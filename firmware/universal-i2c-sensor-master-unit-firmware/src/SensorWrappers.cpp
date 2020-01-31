@@ -14,6 +14,10 @@
 // associated header
 #include "SensorWrappers.h"
 
+// software serial stuff
+//SoftwareSerial SoftSerial(9, 10); // RX, TX
+
+
 ////////////
 // BNO055 //
 ////////////
@@ -23,7 +27,7 @@ bool SensorWrappers::SW_BNO055::init(Sensor_T::SensorCore *sensor) {
     bool noError = true;
 
     // set i2c mux port 
-    Hardware::I2C_MUX::Instance.set_port(sensor->port);
+    hardware::i2c_mux::Instance.set_port(sensor->port);
 
     // create the new sensor object 
     sensor->object = OME::GetFreeObjPrt(BNO055_OBJ_SIZE, nullptr);
@@ -47,12 +51,12 @@ bool SensorWrappers::SW_BNO055::init(Sensor_T::SensorCore *sensor) {
 
     if (!noError) {
         // LED
-        Hardware::LEDs::error(1);
+        hardware::leds::error(1);
 
         // Log
-        Hardware::SoftSerial::Instance.begin(9600);
-        Hardware::SoftSerial::Instance.print("E");
-        Hardware::SoftSerial::Instance.println(ERRORS::Code::SensorInitBNO055);
+        SERIAL2LOG.begin(9600);
+        SERIAL2LOG.print("E");
+        SERIAL2LOG.println(ERRORS::Code::SensorInitBNO055);
 
     }
 
@@ -82,10 +86,10 @@ bool SensorWrappers::SW_BNO055::update(Sensor_T::SensorCore *sensor) {
     }
     else {
         // LED
-        Hardware::LEDs::status(1);
+        hardware::leds::status(1);
 
         // set i2c mux port 
-        Hardware::I2C_MUX::Instance.set_port(sensor->port);
+        hardware::i2c_mux::Instance.set_port(sensor->port);
 
         // read the sensor
         imu::Vector<3> euler = static_cast<Adafruit_BNO055*>(sensor->object)->getVector(Adafruit_BNO055::VECTOR_EULER);
@@ -100,7 +104,7 @@ bool SensorWrappers::SW_BNO055::update(Sensor_T::SensorCore *sensor) {
     }
     
     // LED
-    Hardware::LEDs::status(0);
+    hardware::leds::status(0);
 
     return true;
 }
@@ -114,7 +118,7 @@ bool SensorWrappers::SW_VL53L0X::init(Sensor_T::SensorCore *sensor) {
     bool noError = true;
 
     // set i2c mux port 
-    Hardware::I2C_MUX::Instance.set_port(sensor->port);
+    hardware::i2c_mux::Instance.set_port(sensor->port);
 
     // create the new sensor object 
     sensor->object = OME::GetFreeObjPrt(VL53L0X_OBJ_SIZE, nullptr);
@@ -137,12 +141,12 @@ bool SensorWrappers::SW_VL53L0X::init(Sensor_T::SensorCore *sensor) {
 
     if (!noError) {
         // LED
-        Hardware::LEDs::error(1);
+        hardware::leds::error(1);
 
         // Log
-        Hardware::SoftSerial::Instance.begin(9600);
-        Hardware::SoftSerial::Instance.print("E");
-        Hardware::SoftSerial::Instance.println(ERRORS::Code::SensorInitVL53L0X);
+        SERIAL2LOG.begin(9600);
+        SERIAL2LOG.print("E");
+        SERIAL2LOG.println(ERRORS::Code::SensorInitVL53L0X);
     }
 
     return noError;
@@ -171,10 +175,10 @@ bool SensorWrappers::SW_VL53L0X::update(Sensor_T::SensorCore*sensor) {
     }
     else {
         // LED
-        Hardware::LEDs::status(1);
+        hardware::leds::status(1);
 
         // set i2c mux port 
-        Hardware::I2C_MUX::Instance.set_port(sensor->port);
+        hardware::i2c_mux::Instance.set_port(sensor->port);
 
         // read the sensor
         VL53L0X_RangingMeasurementData_t measure;
@@ -189,13 +193,13 @@ bool SensorWrappers::SW_VL53L0X::update(Sensor_T::SensorCore*sensor) {
             sensor->sensorReadings[0] = -1;
 
             // LED
-            Hardware::LEDs::status(0);
-            Hardware::LEDs::error(1);
+            hardware::leds::status(0);
+            hardware::leds::error(1);
 
             // Log
-            Hardware::SoftSerial::Instance.begin(9600);
-            Hardware::SoftSerial::Instance.print("W");
-            Hardware::SoftSerial::Instance.println(WARNINGS::Code::SensorReadingVL53L0X);
+            SERIAL2LOG.begin(9600);
+            SERIAL2LOG.print("W");
+            SERIAL2LOG.println(WARNINGS::Code::SensorReadingVL53L0X);
 
             return false;
         }
@@ -205,7 +209,7 @@ bool SensorWrappers::SW_VL53L0X::update(Sensor_T::SensorCore*sensor) {
     }
 
     // LED
-    Hardware::LEDs::status(0);
+    hardware::leds::status(0);
 
     return true;
 }
@@ -219,7 +223,7 @@ bool SensorWrappers::SW_VL6180X::init(Sensor_T::SensorCore*sensor) {
     bool noError = true;
 
     // set i2c mux port 
-    Hardware::I2C_MUX::Instance.set_port(sensor->port);
+    hardware::i2c_mux::Instance.set_port(sensor->port);
 
     // create the new sensor object 
     sensor->object = OME::GetFreeObjPrt(VL6180X_OBJ_SIZE, nullptr);
@@ -242,12 +246,12 @@ bool SensorWrappers::SW_VL6180X::init(Sensor_T::SensorCore*sensor) {
 
     if (!noError) {
         // LED
-        Hardware::LEDs::error(1);
+        hardware::leds::error(1);
 
         // Log
-        Hardware::SoftSerial::Instance.begin(9600);
-        Hardware::SoftSerial::Instance.print("E");
-        Hardware::SoftSerial::Instance.println(ERRORS::Code::SensorInitVL6180X);
+        SERIAL2LOG.begin(9600);
+        SERIAL2LOG.print("E");
+        SERIAL2LOG.println(ERRORS::Code::SensorInitVL6180X);
     }
 
     return noError;
@@ -276,10 +280,10 @@ bool SensorWrappers::SW_VL6180X::update(Sensor_T::SensorCore*sensor) {
     }
     else {
         // LED
-        Hardware::LEDs::status(1);
+        hardware::leds::status(1);
 
         // set i2c mux port 
-        Hardware::I2C_MUX::Instance.set_port(sensor->port);
+        hardware::i2c_mux::Instance.set_port(sensor->port);
 
         // read the sensor
         uint8_t range = static_cast<Adafruit_VL6180X*>(sensor->object)->readRange();
@@ -294,13 +298,13 @@ bool SensorWrappers::SW_VL6180X::update(Sensor_T::SensorCore*sensor) {
             sensor->sensorReadings[0] = -1;
 
             // LED
-            Hardware::LEDs::status(0);
-            Hardware::LEDs::error(1);
+            hardware::leds::status(0);
+            hardware::leds::error(1);
 
             // Log
-            Hardware::SoftSerial::Instance.begin(9600);
-            Hardware::SoftSerial::Instance.print("W");
-            Hardware::SoftSerial::Instance.println(WARNINGS::Code::SensorReadingVL6180X);
+            SERIAL2LOG.begin(9600);
+            SERIAL2LOG.print("W");
+            SERIAL2LOG.println(WARNINGS::Code::SensorReadingVL6180X);
 
             return false;
         }
@@ -310,7 +314,7 @@ bool SensorWrappers::SW_VL6180X::update(Sensor_T::SensorCore*sensor) {
     }
 
     // LED
-    Hardware::LEDs::status(0);
+    hardware::leds::status(0);
 
     return true;
 }
@@ -323,7 +327,7 @@ bool SensorWrappers::SW_SRF08::init(Sensor_T::SensorCore*sensor) {
     bool noError = true;
 
     // set i2c mux port 
-    Hardware::I2C_MUX::Instance.set_port(sensor->port);
+    hardware::i2c_mux::Instance.set_port(sensor->port);
 
     // create the new sensor object 
     sensor->object = OME::GetFreeObjPrt(SRF08_OBJ_SIZE, nullptr);
@@ -349,7 +353,7 @@ bool SensorWrappers::SW_SRF08::init(Sensor_T::SensorCore*sensor) {
 }
 bool SensorWrappers::SW_SRF08::activate(Sensor_T::SensorCore*sensor) {
     // set i2c mux port 
-    Hardware::I2C_MUX::Instance.set_port(sensor->port);
+    hardware::i2c_mux::Instance.set_port(sensor->port);
 
     // an initial measurment
     static_cast<SRF08*>(sensor->object)->init();
@@ -379,10 +383,10 @@ bool SensorWrappers::SW_SRF08::update(Sensor_T::SensorCore*sensor) {
     }
     else {
         // LED
-        Hardware::LEDs::status(1);
+        hardware::leds::status(1);
 
         // set i2c mux port 
-        Hardware::I2C_MUX::Instance.set_port(sensor->port);
+        hardware::i2c_mux::Instance.set_port(sensor->port);
 
         // read the sensor
         static_cast<SRF08*>(sensor->object)->readRangeUNSAFE();
@@ -397,7 +401,7 @@ bool SensorWrappers::SW_SRF08::update(Sensor_T::SensorCore*sensor) {
     }
 
     // LED
-    Hardware::LEDs::status(0);
+    hardware::leds::status(0);
 
     return true;
 }

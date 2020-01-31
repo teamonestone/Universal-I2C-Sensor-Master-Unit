@@ -19,15 +19,16 @@
 //////////////
 
 // basic Includes
-#include "Arduino.h"
+#include <Arduino.h>
 #include <inttypes.h>
 
 // i2c stuff
 #include <Wire.h>
 #include "TCA9548A.h"
 
-// serial stuff
-#include <SoftwareSerial.h>
+// software serial stuff
+//#include <SoftwareSerial.h>
+//extern SoftwareSerial SoftSerial;
 
 
 /////////////
@@ -39,23 +40,26 @@
 #define ERROR_LED_PIN 12        //< Defines the pin number of the error led
 #define STATUS_LED_PIN 13       //< Defines the pin number of the status led
 
+#define SERIAL2LOG_BAUD 9200    //< The baudrate of the serial interface whic is used to write the log stuff
+#define SERIAL2LOG Serial       //< The Serial interface which is used to write the log stuff
+
 
 ///////////////
 // Namespace //
 ///////////////
 
 /**
- * @namespace Sensor_T
+ * @namespace hardware
  * 
  * @brief Namspace for hardware related stuff.
  */
-namespace Hardware {
+namespace hardware {
 
     ///////////////
     // functions //
     ///////////////
 
-    void initHardwarePins();
+    void initHardware();
 
 
     //////////////////////
@@ -63,11 +67,11 @@ namespace Hardware {
     //////////////////////
 
     /**
-     * @namespace I2C_MUX
+     * @namespace i2c_mux
      * 
      * @brief Namespace for a static object of the i2c mux.
      */
-    namespace I2C_MUX {
+    namespace i2c_mux {
         /**
          * @brief Create a static instance of the TCA9548A mux.
          * 
@@ -76,27 +80,13 @@ namespace Hardware {
     }
 
     /**
-     * @namespace LEDs
+     * @namespace leds
      * 
      * @brief Namespace for the onboard leds.
      */
-    namespace LEDs {
+    namespace leds {
         void error(bool state);         // Toggle the error led.
         void status(bool state);        // Toggle the status led.
-    }
-
-    /**
-     * @namespace SoftSerial
-     * 
-     * @brief Namespace for a static object of the SoftwareSerial class.
-     */
-    namespace SoftSerial {
-
-        /**
-         * @brief Create a static instance of the SoftwareSerial class.
-         * 
-         */
-        static SoftwareSerial Instance = SoftwareSerial(9, 10);
     }
 }
 

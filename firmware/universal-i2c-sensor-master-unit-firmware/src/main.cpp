@@ -5,6 +5,9 @@
 // system libraries
 #include <Arduino.h>
 
+// global vars
+#include "GlobalVars.h"
+
 // communication libraries
 #include <Wire.h>
 #include "Communication.h"
@@ -19,16 +22,7 @@
 // Defines //
 /////////////
 
-// DEBUG-MODE
-#define DEBUG
 
-// i2c stuff
-#define SMU_MAIN_I2C_ADDRESS 0				// i2c address @ the hardware i2c port
-#define SMU_SOFT_I2C_ADDRESS 10				// i2c address @ the software i2c port
-
-// serial stuff
-#define SMU_MAIN_SERIAL_BAUD 115200			// baud-rate @ the hardware serial port
-#define SMU_SFOT_SERIAL_BAUD 115200			// baud-rate @ the software serial port
 
 ////////////////////
 // global objects //
@@ -49,13 +43,7 @@ uint8_t SRF08_No = -1;
 void setup() {
 
   // init hardware
-  Hardware::initHardwarePins();
-  
-  // hardware serial
-  Serial.begin(SMU_MAIN_SERIAL_BAUD);
-  
-  // software serial
-  Hardware::SoftSerial::Instance.begin(SMU_SFOT_SERIAL_BAUD);
+  hardware::initHardware();
   
   // hardware i2c
   Wire.begin(SMU_MAIN_I2C_ADDRESS);
@@ -74,17 +62,23 @@ void setup() {
 
 void loop() {
     
-  Hardware::LEDs::status(1); //Serial.println("an");
+
+    if (GlobalVars::autoUpdateActivationStatus == true) {
+      MySensors.updateAllSensors();
+    }
+
+
+  hardware::leds::status(1); //Serial.println("an");
   //uint32_t time = millis();
   MySensors.updateAllSensors();
   //Serial.print("dT="); Serial.println(millis() - time);
 
   //Serial.print("US-Sensor Reading: "); Serial.println(MySensors.getReading(SRF08_No, 0));
   //Serial.print("BNO-Sensor Reading: "); Serial.println(MySensors.getReading(BNO055_No, 0));
-  Serial.print("LASER-Sensor Reading: "); Serial.println(MySensors.getReading(VL6180X_No, 0));
+  SERIAL2LOG.print("LASER-Sensor Reading: "); Serial.println(MySensors.getReading(VL6180X_No, 0));
 
   delay(100);
-  Hardware::LEDs::status(0); //Serial.println("aus");
+  hardware::leds::status(0); //Serial.println("aus");
 
   delay(100);
 }

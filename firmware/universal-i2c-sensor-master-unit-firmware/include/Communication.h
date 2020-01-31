@@ -19,17 +19,26 @@
 //////////////
 
 // basic Includes
-#include "Arduino.h"
+#include <Arduino.h>
 #include <inttypes.h>
+#include <SoftwareSerial.h>
 
 // communication backend
 #include "SMU-Communication-Backend.h"
+
+// sensor stuff
+#include "sensors.h"
 
 
 /////////////
 // Defines //
 /////////////
 
+
+///////////////
+// Namespace //
+///////////////
+using namespace smu_com_backend;
 
 /////////////
 // Members //
