@@ -14,9 +14,6 @@
 // associated header
 #include "SensorWrappers.h"
 
-// software serial stuff
-//SoftwareSerial SoftSerial(9, 10); // RX, TX
-
 ////////////
 // BNO055 //
 ////////////
@@ -54,7 +51,6 @@ bool SensorWrappers::SW_BNO055::init(Sensor_T::SensorCore *sensor) {
         hardware::leds::error(1);
 
         // Log
-        SERIAL2LOG.begin(9600);
         SERIAL2LOG.print("E");
         SERIAL2LOG.println(ERRORS::Code::SensorInitBNO055);
 
@@ -146,7 +142,6 @@ bool SensorWrappers::SW_VL53L0X::init(Sensor_T::SensorCore *sensor) {
         hardware::leds::error(1);
 
         // Log
-        SERIAL2LOG.begin(9600);
         SERIAL2LOG.print("E");
         SERIAL2LOG.println(ERRORS::Code::SensorInitVL53L0X);
     }
@@ -199,7 +194,6 @@ bool SensorWrappers::SW_VL53L0X::update(Sensor_T::SensorCore*sensor) {
             hardware::leds::error(1);
 
             // Log
-            SERIAL2LOG.begin(9600);
             SERIAL2LOG.print("W");
             SERIAL2LOG.println(WARNINGS::Code::SensorReadingVL53L0X);
 
@@ -251,7 +245,6 @@ bool SensorWrappers::SW_VL6180X::init(Sensor_T::SensorCore*sensor) {
         hardware::leds::error(1);
 
         // Log
-        SERIAL2LOG.begin(9600);
         SERIAL2LOG.print("E");
         SERIAL2LOG.println(ERRORS::Code::SensorInitVL6180X);
     }
@@ -304,7 +297,6 @@ bool SensorWrappers::SW_VL6180X::update(Sensor_T::SensorCore*sensor) {
             hardware::leds::error(1);
 
             // Log
-            SERIAL2LOG.begin(9600);
             SERIAL2LOG.print("W");
             SERIAL2LOG.println(WARNINGS::Code::SensorReadingVL6180X);
 
@@ -351,7 +343,8 @@ bool SensorWrappers::SW_SRF08::init(Sensor_T::SensorCore*sensor) {
     sensor->type = Sensor_T::SensorType::SRF08_T;
 
     // sensor specific init
-    /*noError &=*/ static_cast<SRF08*>(sensor->object)->init();
+    //noError &= ...
+    static_cast<SRF08*>(sensor->object)->init();
 
     return noError;
 }

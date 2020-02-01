@@ -22,3 +22,6 @@
 [submodule "firmware/universal-i2c-sensor-master-unit-firmware/lib/SMU-Communication-Backend"]
 	path = firmware/universal-i2c-sensor-master-unit-firmware/lib/SMU-Communication-Backend
 	url = https://github.com/teamonestone/SMU-Communication-Backend.git
+[submodule "firmware/universal-i2c-sensor-master-unit-firmware/lib/SMU-Types"]
+	path = firmware/universal-i2c-sensor-master-unit-firmware/lib/SMU-Types
+	url = https://github.com/teamonestone/SMU-Types.git
