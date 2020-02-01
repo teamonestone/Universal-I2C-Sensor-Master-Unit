@@ -25,8 +25,11 @@
 // i2c stuff
 #include "Hardware.h"
 
-// error
-#include "ERRORS.h"
+// smu types
+#include "SMU-Types.h"
+
+// logger
+#include "Logger.h"
 
 // memory management
 #include "OME.h"

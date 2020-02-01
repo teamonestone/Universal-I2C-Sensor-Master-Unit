@@ -80,11 +80,12 @@ bool communication::processRecMsg(Message* msg, Sensors* mySensors) {
             //----------------------------------------------------------
 
             //------ set payload information ---------------------------
-            payload[1] = 0; //status
+            payload[1] = highByte(static_cast<uint16_t>(GlobalVars::SystemStatus));
+            payload[2] = lowByte(static_cast<uint16_t>(GlobalVars::SystemStatus));
             //----------------------------------------------------------
 
             //------ assemble msg -------------------------------------- 
-            answer.setPayload(payload, 2);
+            answer.setPayload(payload, 3);
             //----------------------------------------------------------
         }
         break;
@@ -100,11 +101,12 @@ bool communication::processRecMsg(Message* msg, Sensors* mySensors) {
             //----------------------------------------------------------
 
             //------ set payload information ---------------------------
-            payload[1] = 0; //status
+            payload[1] = 0;
+            payload[2] = static_cast<uint8_t>(smu_com_backend::lastComErrorInfo);
             //----------------------------------------------------------
 
             //------ assemble msg -------------------------------------- 
-            answer.setPayload(payload, 2);
+            answer.setPayload(payload, 3);
             //----------------------------------------------------------
         }
         break;
@@ -120,11 +122,12 @@ bool communication::processRecMsg(Message* msg, Sensors* mySensors) {
             //----------------------------------------------------------
 
             //------ set payload information ---------------------------
-            payload[1] = 0; //status
+            payload[1] = highByte(static_cast<uint16_t>(GlobalVars::SystemError));
+            payload[2] = lowByte(static_cast<uint16_t>(GlobalVars::SystemError));
             //----------------------------------------------------------
 
             //------ assemble msg -------------------------------------- 
-            answer.setPayload(payload, 2);
+            answer.setPayload(payload, 3);
             //----------------------------------------------------------
         }
         break;
@@ -199,7 +202,7 @@ bool communication::processRecMsg(Message* msg, Sensors* mySensors) {
 
             //------ processs the request ------------------------------
             uint8_t sensorPort = msg->getPayload()[1];
-            Sensor_T::SensorType sensorType = static_cast<Sensor_T::SensorType>(msg->getPayload()[0]);
+            smu_types::SensorType sensorType = static_cast<smu_types::SensorType>(msg->getPayload()[0]);
             
             // init a new sensor
             int8_t conRes = mySensors->connectSensor(sensorPort, sensorType);

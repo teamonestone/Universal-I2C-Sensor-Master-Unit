@@ -1,6 +1,6 @@
 /**
  * @file SensorWrappers.cpp
- * @brief The sours file for the sensor command wrappers.
+ * @brief The source file for the sensor command wrappers.
  * @author Jonas Merkle [JJM] <a href="mailto:jonas.merkle@tam-onestone.net">jonas.merkle@tam-onestone.net</a>
  * @author Dominik Authaler <a href="mailto:dominik.authaler@team-onestone.net">dominik.authaler@team-onestone.net</a>
  * @author
@@ -13,6 +13,14 @@
 
 // associated header
 #include "SensorWrappers.h"
+
+////////////////
+// namespaces //
+////////////////
+
+using namespace serial_logger;
+using namespace smu_types::codes;
+
 
 ////////////
 // BNO055 //
@@ -39,7 +47,7 @@ bool SensorWrappers::SW_BNO055::init(Sensor_T::SensorCore *sensor) {
     sensor->readingIntervall = BNO055_REFRESH_TIMING;
 
     // set sensor type
-    sensor->type = Sensor_T::SensorType::BNO055_T;
+    sensor->type = smu_types::SensorType::BNO055_T;
 
     // sensor specific init
     noError &= static_cast<Adafruit_BNO055*>(sensor->object)->begin();
@@ -47,13 +55,8 @@ bool SensorWrappers::SW_BNO055::init(Sensor_T::SensorCore *sensor) {
     static_cast<Adafruit_BNO055*>(sensor->object)->setExtCrystalUse(true);
 
     if (!noError) {
-        // LED
-        hardware::leds::error(1);
-
         // Log
-        SERIAL2LOG.print("E");
-        SERIAL2LOG.println(ERRORS::Code::SensorInitBNO055);
-
+        writeToLog(ERR_SensorInitBNO055);
     }
 
     return noError;
@@ -132,18 +135,14 @@ bool SensorWrappers::SW_VL53L0X::init(Sensor_T::SensorCore *sensor) {
     sensor->readingIntervall = VL53L0X_REFRESH_TIMING;
 
     // set sensor type
-    sensor->type = Sensor_T::SensorType::VL53L0X_T;
+    sensor->type = smu_types::SensorType::VL53L0X_T;
 
     // sensor specific init
     noError &= static_cast<Adafruit_VL53L0X*>(sensor->object)->begin();
 
     if (!noError) {
-        // LED
-        hardware::leds::error(1);
-
         // Log
-        SERIAL2LOG.print("E");
-        SERIAL2LOG.println(ERRORS::Code::SensorInitVL53L0X);
+        writeToLog(SensorInitVL53L0X);
     }
 
     return noError;
@@ -235,7 +234,7 @@ bool SensorWrappers::SW_VL6180X::init(Sensor_T::SensorCore*sensor) {
     sensor->readingIntervall = VL6180X_REFRESH_TIMING;
 
     // set sensor type
-    sensor->type = Sensor_T::SensorType::VL6180X_T;
+    sensor->type = smu_types::SensorType::VL6180X_T;
 
     // sensor specific init
     noError &= static_cast<Adafruit_VL6180X*>(sensor->object)->begin();
@@ -340,7 +339,7 @@ bool SensorWrappers::SW_SRF08::init(Sensor_T::SensorCore*sensor) {
     sensor->readingIntervall = SRF08_REFRESH_TIMING;
 
     // set sensor type
-    sensor->type = Sensor_T::SensorType::SRF08_T;
+    sensor->type = smu_types::SensorType::SRF08_T;
 
     // sensor specific init
     //noError &= ...

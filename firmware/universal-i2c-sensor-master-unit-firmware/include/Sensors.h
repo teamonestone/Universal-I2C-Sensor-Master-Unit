@@ -9,7 +9,13 @@
 #include <Arduino.h>
 #include <inttypes.h>
 
-// include the sensor types and warppers
+// smu types
+#include "SMU-Types.h"
+
+// logger 
+#include "Logger.h"
+
+// the sensor types and warppers
 #include "Sensor_T.h"
 #include "SensorWrappers.h"
 #include "Hardware.h"
@@ -44,15 +50,14 @@ class Sensors
 		bool externAutoUpdateAll;
 
 		// public functiuons 
-		int8_t connectSensor(uint8_t port, Sensor_T::SensorType type);
+		int8_t connectSensor(uint8_t port, smu_types::SensorType type);
 		bool activateSensor(int8_t sensorNo);
 		bool deactivateSensor(int8_t sensorNo);
 		bool isActive(int8_t sensorNo);
 		bool disconnectSensor(int8_t sensorNo);
-		bool updateSenor(int8_t sensorNo);
+		bool updateSensor(int8_t sensorNo);
 		bool updateAllSensors();
 		float getReading(int8_t sensorNo, uint8_t valueNo);
-		void setUpdateAllStatus(bool status);
 
 // End PUBLIC --------------------------------------------------------------------
 

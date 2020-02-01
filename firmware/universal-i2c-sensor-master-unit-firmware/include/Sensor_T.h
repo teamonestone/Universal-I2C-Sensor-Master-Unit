@@ -21,6 +21,9 @@
 // basic Includes
 #include <inttypes.h>
 
+// smu types
+#include "SMU-Types.h"
+
 /////////////
 // Defines //
 /////////////
@@ -40,13 +43,6 @@
 namespace Sensor_T {
 
     /**
-     * @enum SensorType
-     * 
-     * @brief Enum of all supportet sensor model names.
-     */
-    enum SensorType {NONE, BNO055_T, /*VL53L0X_T, VL6180X_T,*/ SRF08_T};
-
-    /**
      * @struct SensorCore
      * 
      * @brief The complex sensor object that represents a real sensor.
@@ -54,8 +50,8 @@ namespace Sensor_T {
     struct SensorCore{
 
         // general stuff
-        uint8_t port;           ///< The physical port (0-7) where the sensor is connected.
-        SensorType type;        ///< The model of the sensor.
+        uint8_t port;                       ///< The physical port (0-7) where the sensor is connected.
+        smu_types::SensorType type;         ///< The model of the sensor.
 
         // sensor object
         void *object;           ///< Pointer to the sensor object.

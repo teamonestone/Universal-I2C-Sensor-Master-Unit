@@ -21,13 +21,19 @@
 // basic Includes
 #include <inttypes.h>
 
+// smu types
+#include "SMU-Types.h"
 
 /////////////
 // Defines //
 /////////////
 
+// Software type
+#define SMU_FIRMWARE
+
 // DEBUG-MODE
 #define DEBUG
+//#define DEBUG_FINE
 
 // Firmware version
 #define SMU_FIRMWARE_VERSION 10000
@@ -47,10 +53,8 @@
  * @brief Namspace for global variables.
  */
 namespace GlobalVars {
-
-    static int8_t SystemStatus = 0;
-    static int8_t SystemError = 0;
-    
+    static smu_types::codes::Status SystemStatus = smu_types::codes::Status::STATUS_NONE;
+    static smu_types::codes::Error SystemError = smu_types::codes::Error::ERR_NONE;
 }
 
 #endif

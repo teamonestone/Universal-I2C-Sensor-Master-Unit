@@ -1,3 +1,5 @@
+#define SMU_FIRMWARE
+
 //////////////
 // Includes //
 //////////////
@@ -9,12 +11,23 @@
 // global vars
 #include "GlobalVars.h"
 
+// logger
+#include "Logger.h"
+
 // communication libraries
 #include "SMU-Communication-Backend.h"
 #include "Communication.h"
 
 // sensor stuff
 #include "Sensors.h"
+
+
+////////////////
+// namespaces //
+////////////////
+
+using namespace serial_logger;
+using namespace smu_types::codes;
 
 
 ////////////////////
@@ -38,7 +51,9 @@ void setup() {
     hardware::initHardware();
 
 	// init global vars
-	MySensors.externAutoUpdateAll = true;    
+	MySensors.externAutoUpdateAll = true; 
+
+	writeToLog(INFO_MainLoop);   
 }
 
 /////////////////
@@ -46,16 +61,42 @@ void setup() {
 /////////////////
 
 void loop() {
-    
+
 	// check for incomming messages
 	if (communication::checkForMessage() == true) {
-		communication::processRecMsg(&recMsg, &MySensors);
+
+		writeToLog(STATUS_ReadMsg);
+		if (smu_com_backend::readNextMessage(&recMsg) == true) {
+			writeToLog(STATUS_ProcessMsg);
+			if (communication::processRecMsg(&recMsg, &MySensors) == false) {
+				writeToLog(ERR_ComCouldNotProcessCurrentMsg);
+			}
+
+			writeToLog(INFO_ProcessMsgDone);
+		}
+		else {
+			writeToLog(WARN_ComCouldNotReadIncommingMsg);
+		}
+	}
+	else {
+		writeToLog(INFO_ComNo4BytesRec);
 	}
 
     // perform autoupdate of sensor readings if enabled
 	if (MySensors.externAutoUpdateAll == true) {
-		hardware::leds::status(1);
+		writeToLog(STATUS_UpdateSensorReadings);
     	MySensors.updateAllSensors();
-		hardware::leds::status(0);
     }
+	else {
+		writeToLog(INFO_AutoUpdateDisables);
+	}
+
+	// error led
+	if (GlobalVars::SystemError != ERR_NONE || smu_com_backend::lastComErrorInfo != NO_COM_ERROR) {
+		hardware::leds::error(1);
+
+		if (smu_com_backend::lastComErrorInfo != NO_COM_ERROR) {
+			writeToLog(smu_com_backend::lastComErrorInfo);
+		}
+	}
 }

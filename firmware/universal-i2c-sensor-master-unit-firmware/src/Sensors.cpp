@@ -1,6 +1,14 @@
 // associated header
 #include "Sensors.h"
 
+// defines
+//#define SENSORS_LOCLA_FINE_DEBUG
+
+// used namespaces
+using namespace serial_logger;
+using namespace smu_types::codes;
+
+
 Sensors::Sensors() {
     externAutoUpdateAll = true;
 
@@ -13,7 +21,7 @@ Sensors::~Sensors() {
     ;
 }
 
-int8_t Sensors::connectSensor(uint8_t port, Sensor_T::SensorType type) {
+int8_t Sensors::connectSensor(uint8_t port, smu_types::SensorType type) {
     // get next free sensor number 
     int8_t sensorNo = getFreeSensor();
 
@@ -22,7 +30,7 @@ int8_t Sensors::connectSensor(uint8_t port, Sensor_T::SensorType type) {
         return -1;
     }
 
-    #ifdef DEBUG
+    #ifdef SENSORS_LOCLA_FINE_DEBUG
     // "string" for sprintf
     char s[16] = {0};
     #endif
@@ -34,7 +42,9 @@ int8_t Sensors::connectSensor(uint8_t port, Sensor_T::SensorType type) {
     // switch sensor type
     switch (type) {
 
-        case Sensor_T::SensorType::BNO055_T:
+        case smu_types::SensorType::BNO055_T:
+            writeToLog(STATUS_Sensors_Init_BNO055);
+
             // linking pointers
             _sensors[sensorNo].init = &(SensorWrappers::SW_BNO055::init);
             _sensors[sensorNo].activate = &(SensorWrappers::SW_BNO055::activate);
@@ -51,7 +61,7 @@ int8_t Sensors::connectSensor(uint8_t port, Sensor_T::SensorType type) {
                 return -1;
             }
 
-            #ifdef DEBUG
+            #ifdef SENSORS_LOCLA_FINE_DEBUG
             sprintf(s, "%p", _sensors[sensorNo].object);
             SERIAL2LOG.print("Init BNO055 on Port ");
             SERIAL2LOG.print(port);
@@ -64,7 +74,9 @@ int8_t Sensors::connectSensor(uint8_t port, Sensor_T::SensorType type) {
         break;
         
         /*
-        case Sensor_T::SensorType::VL53L0X_T:
+        case smu_types::SensorType::VL53L0X_T:
+            writeToLog(STATUS_Sensors_Init_VL53L0X);
+
             // linking pointers
             _sensors[sensorNo].init = &(SensorWrappers::SW_VL53L0X::init);
             _sensors[sensorNo].activate = &(SensorWrappers::SW_VL53L0X::activate);
@@ -81,7 +93,7 @@ int8_t Sensors::connectSensor(uint8_t port, Sensor_T::SensorType type) {
                 return -1;
             }
            
-            #ifdef DEBUG
+            #ifdef SENSORS_LOCLA_FINE_DEBUG
             sprintf(s, "%p", _sensors[sensorNo].object);
             SERIAL2LOG.print("Init VL53L0X on Port ");
             SERIAL2LOG.print(port);
@@ -93,7 +105,9 @@ int8_t Sensors::connectSensor(uint8_t port, Sensor_T::SensorType type) {
 
         break;
 
-        case Sensor_T::SensorType::VL6180X_T:
+        case smu_types::SensorType::VL6180X_T:
+            writeToLog(STATUS_Sensors_Init_VL6180X);
+
             // linking pointers
             _sensors[sensorNo].init = &(SensorWrappers::SW_VL6180X::init);
             _sensors[sensorNo].activate = &(SensorWrappers::SW_VL6180X::activate);
@@ -110,7 +124,7 @@ int8_t Sensors::connectSensor(uint8_t port, Sensor_T::SensorType type) {
                 return -1;
             }
 
-            #ifdef DEBUG
+            #ifdef SENSORS_LOCLA_FINE_DEBUG
             sprintf(s, "%p", _sensors[sensorNo].object);
             SERIAL2LOG.print("Init VL6180X on Port ");
             SERIAL2LOG.print(port);
@@ -123,7 +137,9 @@ int8_t Sensors::connectSensor(uint8_t port, Sensor_T::SensorType type) {
         break;
 
         */
-        case Sensor_T::SensorType::SRF08_T:
+        case smu_types::SensorType::SRF08_T:
+            writeToLog(STATUS_Sensors_Init_SRF08);
+
             // linking pointers
             _sensors[sensorNo].init = &(SensorWrappers::SW_SRF08::init);
             _sensors[sensorNo].activate = &(SensorWrappers::SW_SRF08::activate);
@@ -140,7 +156,7 @@ int8_t Sensors::connectSensor(uint8_t port, Sensor_T::SensorType type) {
                 return -1;
             }
             
-            #ifdef DEBUG
+            #ifdef SENSORS_LOCLA_FINE_DEBUG
             sprintf(s, "%p", _sensors[sensorNo].object);
             SERIAL2LOG.print("Init SRF08 on Port ");
             SERIAL2LOG.print(port);
@@ -152,7 +168,7 @@ int8_t Sensors::connectSensor(uint8_t port, Sensor_T::SensorType type) {
 
         break;
 
-        case Sensor_T::SensorType::NONE:
+        case smu_types::SensorType::NONE:
         default:
             return -1;
         break;
@@ -162,6 +178,7 @@ int8_t Sensors::connectSensor(uint8_t port, Sensor_T::SensorType type) {
 }
 
 bool Sensors::activateSensor(int8_t sensorNo) {
+    writeToLog(INFO_Sensors_activateSensor);
     if (!checkForRange(sensorNo)) {
         return false;
     }
@@ -169,6 +186,7 @@ bool Sensors::activateSensor(int8_t sensorNo) {
 }
 
 bool Sensors::deactivateSensor(int8_t sensorNo) {
+    writeToLog(INFO_Sensors_deactivateSensor);
     if (sensorNo >= SENSORS_POOL_SIZE || sensorNo < 0) {
         return false;
     }
@@ -176,6 +194,7 @@ bool Sensors::deactivateSensor(int8_t sensorNo) {
 }
 
 bool Sensors::isActive(int8_t sensorNo) {
+    writeToLog(INFO_Sensors_isActive);
     if (sensorNo >= SENSORS_POOL_SIZE || sensorNo < 0) {
         return false;
     }
@@ -183,13 +202,15 @@ bool Sensors::isActive(int8_t sensorNo) {
 }
 
 bool Sensors::disconnectSensor(int8_t sensorNo) {
+    writeToLog(INFO_Sensors_disconnectSensor);
     if (!checkForRange(sensorNo)) {
         return false;
     }
     return resetSensor(sensorNo);
 }
 
-bool Sensors::updateSenor(int8_t sensorNo) {
+bool Sensors::updateSensor(int8_t sensorNo) {
+    writeToLog(INFO_Sensors_updateSensor);
      if (!checkForRange(sensorNo)) {
         return false;
     }
@@ -197,9 +218,10 @@ bool Sensors::updateSenor(int8_t sensorNo) {
 }
 
 bool Sensors::updateAllSensors() {
+    writeToLog(INFO_Sensors_updateAllSensors);
     bool noError = true;
     for (int8_t i = 0; i < SENSORS_POOL_SIZE; i++){
-        if (_sensors[i].type != Sensor_T::SensorType::NONE && _sensors[i].active) {
+        if (_sensors[i].type != smu_types::SensorType::NONE && _sensors[i].active) {
             noError &= _sensors[i].update(&_sensors[i]);
         }
     }
@@ -207,6 +229,7 @@ bool Sensors::updateAllSensors() {
 }
 
 float Sensors::getReading(int8_t sensorNo, uint8_t valueNo) {
+    writeToLog(INFO_Sensors_getReading);
     if (!checkForRange(sensorNo) || valueNo >= SENSORS_READING_VECT_SIZE) {
         return -1;
     }
@@ -227,7 +250,7 @@ bool Sensors::resetSensor(int8_t sensorNo) {
         return false;
     }
 
-    _sensors[sensorNo].type = Sensor_T::SensorType::NONE;
+    _sensors[sensorNo].type = smu_types::SensorType::NONE;
 
     _sensors[sensorNo].active = false;
 
@@ -252,7 +275,7 @@ bool Sensors::resetSensor(int8_t sensorNo) {
 int8_t Sensors::getFreeSensor() {
     int8_t res = -1;
     for (int8_t i = 0; i < SENSORS_POOL_SIZE; i++) {
-        if (!_sensors[i].type != Sensor_T::SensorType::NONE) {
+        if (!_sensors[i].type != smu_types::SensorType::NONE) {
             res = i;
             break;
         }
