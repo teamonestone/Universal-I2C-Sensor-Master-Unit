@@ -2,6 +2,8 @@
 #include "Sensors.h"
 
 Sensors::Sensors() {
+    externAutoUpdateAll = true;
+
     for (int8_t i = 0; i < SENSORS_POOL_SIZE; i++) {
         resetSensor(i);
     }
@@ -51,16 +53,17 @@ int8_t Sensors::connectSensor(uint8_t port, Sensor_T::SensorType type) {
 
             #ifdef DEBUG
             sprintf(s, "%p", _sensors[sensorNo].object);
-            Hardware::SoftSerial::Instance.print("Init BNO055 on Port ");
-            Hardware::SoftSerial::Instance.print(port);
-            Hardware::SoftSerial::Instance.print(" at Sensor No. ");
-            Hardware::SoftSerial::Instance.print(sensorNo);
-            Hardware::SoftSerial::Instance.print(" and Object Ptr ");
-            Hardware::SoftSerial::Instance.println(s);
+            SERIAL2LOG.print("Init BNO055 on Port ");
+            SERIAL2LOG.print(port);
+            SERIAL2LOG.print(" at Sensor No. ");
+            SERIAL2LOG.print(sensorNo);
+            SERIAL2LOG.print(" and Object Ptr ");
+            SERIAL2LOG.println(s);
             #endif
 
-            break;
-
+        break;
+        
+        /*
         case Sensor_T::SensorType::VL53L0X_T:
             // linking pointers
             _sensors[sensorNo].init = &(SensorWrappers::SW_VL53L0X::init);
@@ -80,15 +83,15 @@ int8_t Sensors::connectSensor(uint8_t port, Sensor_T::SensorType type) {
            
             #ifdef DEBUG
             sprintf(s, "%p", _sensors[sensorNo].object);
-            Hardware::SoftSerial::Instance.print("Init VL53L0X on Port ");
-            Hardware::SoftSerial::Instance.print(port);
-            Hardware::SoftSerial::Instance.print(" at Sensor No. ");
-            Hardware::SoftSerial::Instance.print(sensorNo);
-            Hardware::SoftSerial::Instance.print(" and Object Ptr ");
-            Hardware::SoftSerial::Instance.println(s);
+            SERIAL2LOG.print("Init VL53L0X on Port ");
+            SERIAL2LOG.print(port);
+            SERIAL2LOG.print(" at Sensor No. ");
+            SERIAL2LOG.print(sensorNo);
+            SERIAL2LOG.print(" and Object Ptr ");
+            SERIAL2LOG.println(s);
             #endif
 
-            break;
+        break;
 
         case Sensor_T::SensorType::VL6180X_T:
             // linking pointers
@@ -109,16 +112,17 @@ int8_t Sensors::connectSensor(uint8_t port, Sensor_T::SensorType type) {
 
             #ifdef DEBUG
             sprintf(s, "%p", _sensors[sensorNo].object);
-            Hardware::SoftSerial::Instance.print("Init VL6180X on Port ");
-            Hardware::SoftSerial::Instance.print(port);
-            Hardware::SoftSerial::Instance.print(" at Sensor No. ");
-            Hardware::SoftSerial::Instance.print(sensorNo);
-            Hardware::SoftSerial::Instance.print(" and Object Ptr ");
-            Hardware::SoftSerial::Instance.println(s);
+            SERIAL2LOG.print("Init VL6180X on Port ");
+            SERIAL2LOG.print(port);
+            SERIAL2LOG.print(" at Sensor No. ");
+            SERIAL2LOG.print(sensorNo);
+            SERIAL2LOG.print(" and Object Ptr ");
+            SERIAL2LOG.println(s);
             #endif
             
-            break;
+        break;
 
+        */
         case Sensor_T::SensorType::SRF08_T:
             // linking pointers
             _sensors[sensorNo].init = &(SensorWrappers::SW_SRF08::init);
@@ -138,20 +142,20 @@ int8_t Sensors::connectSensor(uint8_t port, Sensor_T::SensorType type) {
             
             #ifdef DEBUG
             sprintf(s, "%p", _sensors[sensorNo].object);
-            Hardware::SoftSerial::Instance.print("Init SRF08 on Port ");
-            Hardware::SoftSerial::Instance.print(port);
-            Hardware::SoftSerial::Instance.print(" at Sensor No. ");
-            Hardware::SoftSerial::Instance.print(sensorNo);
-            Hardware::SoftSerial::Instance.print(" and Object Ptr ");
-            Hardware::SoftSerial::Instance.println(s);
+            SERIAL2LOG.print("Init SRF08 on Port ");
+            SERIAL2LOG.print(port);
+            SERIAL2LOG.print(" at Sensor No. ");
+            SERIAL2LOG.print(sensorNo);
+            SERIAL2LOG.print(" and Object Ptr ");
+            SERIAL2LOG.println(s);
             #endif
 
-            break;
+        break;
 
         case Sensor_T::SensorType::NONE:
         default:
             return -1;
-            break;
+        break;
     }
     
     return sensorNo;
@@ -169,6 +173,13 @@ bool Sensors::deactivateSensor(int8_t sensorNo) {
         return false;
     }
     return _sensors[sensorNo].deactivate(&_sensors[sensorNo]);
+}
+
+bool Sensors::isActive(int8_t sensorNo) {
+    if (sensorNo >= SENSORS_POOL_SIZE || sensorNo < 0) {
+        return false;
+    }
+    return _sensors[sensorNo].active;
 }
 
 bool Sensors::disconnectSensor(int8_t sensorNo) {

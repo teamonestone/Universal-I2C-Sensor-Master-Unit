@@ -37,8 +37,8 @@
 // sensor libs
 #include "Adafruit_BNO055.h"
 #include "Adafruit_Sensor.h"
-#include "Adafruit_VL53L0X.h"
-#include "Adafruit_VL6180X.h"
+//#include "Adafruit_VL53L0X.h"
+//#include "Adafruit_VL6180X.h"
 #include "SRF08.h"
 
 
@@ -73,7 +73,7 @@
  * @brief This is the parent namespace for all sensor command wrappers.
  */
 namespace SensorWrappers {
-    
+
     /**
      * @namespace SW_BNO055
      * 
@@ -86,29 +86,29 @@ namespace SensorWrappers {
         bool update(Sensor_T::SensorCore *sensor);
     }
 
-    /**
-     * @namespace SW_VL53L0X
-     * 
-     * @brief The namespace is dedecated to all commands for the VL53L0X.
-     */
-    namespace SW_VL53L0X {
-        bool init(Sensor_T::SensorCore *sensor);
-        bool activate(Sensor_T::SensorCore *sensor);
-        bool deactivate(Sensor_T::SensorCore *sensor);
-        bool update(Sensor_T::SensorCore *sensor);
-    }
-
-    /**
-     * @namespace SW_VL6180X
-     * 
-     * @brief The namespace is dedecated to all commands for the VL6180X.
-     */
-    namespace SW_VL6180X {
-        bool init(Sensor_T::SensorCore *sensor);
-        bool activate(Sensor_T::SensorCore *sensor);
-        bool deactivate(Sensor_T::SensorCore *sensor);
-        bool update(Sensor_T::SensorCore *sensor);
-    }
+    ///**
+    // * @namespace SW_VL53L0X
+    // * 
+    // * @brief The namespace is dedecated to all commands for the VL53L0X.
+    // */
+    //namespace SW_VL53L0X {
+    //    bool init(Sensor_T::SensorCore *sensor);
+    //    bool activate(Sensor_T::SensorCore *sensor);
+    //    bool deactivate(Sensor_T::SensorCore *sensor);
+    //    bool update(Sensor_T::SensorCore *sensor);
+    //}
+//
+    ///**
+    // * @namespace SW_VL6180X
+    // * 
+    // * @brief The namespace is dedecated to all commands for the VL6180X.
+    // */
+    //namespace SW_VL6180X {
+    //    bool init(Sensor_T::SensorCore *sensor);
+    //    bool activate(Sensor_T::SensorCore *sensor);
+    //    bool deactivate(Sensor_T::SensorCore *sensor);
+    //    bool update(Sensor_T::SensorCore *sensor);
+    //}
 
     /**
      * @namespace SW_SRF08

@@ -44,7 +44,7 @@ namespace Sensor_T {
      * 
      * @brief Enum of all supportet sensor model names.
      */
-    enum SensorType {NONE, BNO055_T, VL53L0X_T, VL6180X_T, SRF08_T};
+    enum SensorType {NONE, BNO055_T, /*VL53L0X_T, VL6180X_T,*/ SRF08_T};
 
     /**
      * @struct SensorCore

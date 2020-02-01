@@ -20,7 +20,7 @@ using namespace communication;
 bool communication::checkForMessage() {
 
     // check if enought data is in the serial buffer
-    if (_SMU_COM_BACKEND_SERIAL_INTERFACE.available() >= 4) {
+    if (_SMU_COM_BACKEND_SERIAL_INTERFACE.available() >= _SMU_COM_BACKEND_MIN_MSG_LENGHT) {
         return true;
     }
     else {
@@ -50,135 +50,325 @@ bool communication::processRecMsg(Message* msg, Sensors* mySensors) {
         break;
 
 		case MessageType::PONG :
-            answer.clear();
+        {
+            //----- construct basic msg as answer to the request -------
             answer.setMsgType(MessageType::ACK);
             payload[0] = static_cast<uint8_t>(MessageType::PONG);
-            payload[1] = (msg->getPayload())[0];
+            //----------------------------------------------------------
+
+            //------ processs the request ------------------------------
+            //----------------------------------------------------------
+
+            //------ set payload information ---------------------------
+            payload[1] = msg->getPayload()[0];
+            //----------------------------------------------------------
+
+            //------ assemble msg -------------------------------------- 
             answer.setPayload(payload, 2);
+            //----------------------------------------------------------
+        }
         break;
 
 		case MessageType::G_STATUS :
-            answer.clear();
+        {
+            //----- construct basic msg as answer to the request -------
             answer.setMsgType(MessageType::ACK);
             payload[0] = static_cast<uint8_t>(MessageType::G_STATUS);
+            //----------------------------------------------------------
+
+            //------ processs the request ------------------------------
+            //----------------------------------------------------------
+
+            //------ set payload information ---------------------------
             payload[1] = 0; //status
+            //----------------------------------------------------------
+
+            //------ assemble msg -------------------------------------- 
             answer.setPayload(payload, 2);
+            //----------------------------------------------------------
+        }
         break;
 
 		case MessageType::G_COM_ERROR :
-            answer.clear();
+        {
+            //----- construct basic msg as answer to the request -------
             answer.setMsgType(MessageType::ACK);
             payload[0] = static_cast<uint8_t>(MessageType::G_COM_ERROR);
-            payload[1] = 0; //error
+            //----------------------------------------------------------
+
+            //------ processs the request ------------------------------
+            //----------------------------------------------------------
+
+            //------ set payload information ---------------------------
+            payload[1] = 0; //status
+            //----------------------------------------------------------
+
+            //------ assemble msg -------------------------------------- 
             answer.setPayload(payload, 2);
+            //----------------------------------------------------------
+        }
         break;
 
         case MessageType::G_SMU_ERROR :
-            answer.clear();
+        {
+            //----- construct basic msg as answer to the request -------
             answer.setMsgType(MessageType::ACK);
             payload[0] = static_cast<uint8_t>(MessageType::G_SMU_ERROR);
-            payload[1] = 0; //error
+            //----------------------------------------------------------
+
+            //------ processs the request ------------------------------
+            //----------------------------------------------------------
+
+            //------ set payload information ---------------------------
+            payload[1] = 0; //status
+            //----------------------------------------------------------
+
+            //------ assemble msg -------------------------------------- 
             answer.setPayload(payload, 2);
+            //----------------------------------------------------------
+        }
         break;
 
         case MessageType::RESET :
-            answer.clear();
+        {
+            //----- construct basic msg as answer to the request -------
             answer.setMsgType(MessageType::ACK);
             payload[0] = static_cast<uint8_t>(MessageType::RESET);
+            //----------------------------------------------------------
+
+            //------ processs the request ------------------------------
+            //----------------------------------------------------------
+
+            //------ set payload information ---------------------------
+            //----------------------------------------------------------
+
+            //------ assemble msg -------------------------------------- 
             answer.setPayload(payload, 1);
+            //----------------------------------------------------------
+        }
         break;
 
         case MessageType::FIRMWARE_V :
-            answer.clear();
+        {
+            //----- construct basic msg as answer to the request -------
             answer.setMsgType(MessageType::ACK);
             payload[0] = static_cast<uint8_t>(MessageType::FIRMWARE_V);
-            payload[1] = 0; //firmware
-            payload[2] = 0; //firmware
+            //----------------------------------------------------------
+
+            //------ processs the request ------------------------------
+            //----------------------------------------------------------
+
+            //------ set payload information ---------------------------
+            payload[1] = highByte(SMU_FIRMWARE_VERSION);
+            payload[2] = lowByte(SMU_FIRMWARE_VERSION);
+            //----------------------------------------------------------
+
+            //------ assemble msg -------------------------------------- 
             answer.setPayload(payload, 3);
+            //----------------------------------------------------------
+        }
         break;
 
         case MessageType::COM_BACK_V :
-            answer.clear();
+        {
+            //----- construct basic msg as answer to the request -------
             answer.setMsgType(MessageType::ACK);
             payload[0] = static_cast<uint8_t>(MessageType::COM_BACK_V);
+            //----------------------------------------------------------
+
+            //------ processs the request ------------------------------
+            //----------------------------------------------------------
+
+            //------ set payload information ---------------------------
             payload[1] = highByte(smu_com_backend::getVersion());
-            payload[2] = lowByte(smu_com_backend::getVersion());;
+            payload[2] = lowByte(smu_com_backend::getVersion());
+            //----------------------------------------------------------
+
+            //------ assemble msg -------------------------------------- 
             answer.setPayload(payload, 3);
+            //----------------------------------------------------------
+        }
         break;
 
 		case MessageType::INIT_SENSOR :
-            answer.clear();
+        {
+            //----- construct basic msg as answer to the request -------
             answer.setMsgType(MessageType::ACK);
             payload[0] = static_cast<uint8_t>(MessageType::INIT_SENSOR);
-            // init
-            answer.setPayload(payload, 2);
+            //----------------------------------------------------------
+
+            //------ processs the request ------------------------------
+            uint8_t sensorPort = msg->getPayload()[1];
+            Sensor_T::SensorType sensorType = static_cast<Sensor_T::SensorType>(msg->getPayload()[0]);
+            
+            // init a new sensor
+            int8_t conRes = mySensors->connectSensor(sensorPort, sensorType);
+            //----------------------------------------------------------
+
+            //------ set payload information ---------------------------
+            if (conRes < 0) {
+                payload[1] = static_cast<uint8_t>(false);
+                payload[2] = static_cast<uint8_t>(-1);
+            }
+            else {
+                payload[1] = static_cast<uint8_t>(true);
+                payload[2] = static_cast<uint8_t>(conRes);
+            }
+            //----------------------------------------------------------
+
+            //------ assemble msg -------------------------------------- 
+            answer.setPayload(payload, 3);
+            //----------------------------------------------------------
+        }
         break;
 
         case MessageType::S_SEN_ACTIVE :
-            answer.clear();
+        {
+            //----- construct basic msg as answer to the request -------
             answer.setMsgType(MessageType::ACK);
             payload[0] = static_cast<uint8_t>(MessageType::S_SEN_ACTIVE);
-            
-            // set the sensor active
+            //----------------------------------------------------------
+
+            //------ processs the request ------------------------------
+            bool res = false;
             if (static_cast<bool>(msg->getPayload()[1]) == true) {
-                payload[1] = static_cast<uint8_t>(mySensors->activateSensor(msg->getPayload()[0]));
+                res = mySensors->activateSensor(static_cast<int8_t>(msg->getPayload()[0]));
             }
             else {
-                payload[1] = static_cast<uint8_t>(mySensors->deactivateSensor(msg->getPayload()[0]));
+                res = mySensors->deactivateSensor(static_cast<int8_t>(msg->getPayload()[0]));
             }
-            
+            //----------------------------------------------------------
+
+            //------ set payload information ---------------------------
+            payload[1] = static_cast<uint8_t>(res);
+            //----------------------------------------------------------
+
+            //------ assemble msg -------------------------------------- 
             answer.setPayload(payload, 2);
+            //----------------------------------------------------------
+        }
         break;
 
         case MessageType::G_SEN_ACTIVE :
-            answer.clear();
+        {
+            //----- construct basic msg as answer to the request -------
             answer.setMsgType(MessageType::ACK);
             payload[0] = static_cast<uint8_t>(MessageType::G_SEN_ACTIVE);
+            //----------------------------------------------------------
 
-            // set the sensor active
-            if (static_cast<bool>(msg->getPayload()[1]) == true) {
-                payload[1] = static_cast<uint8_t>(mySensors->activateSensor(msg->getPayload()[0]));
-            }
-            else {
-                payload[1] = static_cast<uint8_t>(mySensors->deactivateSensor(msg->getPayload()[0]));
-            }
-            
-            answer.setPayload(payload, 2);
+            //------ processs the request ------------------------------
+            //----------------------------------------------------------
+
+            //------ set payload information ---------------------------
+            payload[1] = static_cast<uint8_t>(true);
+            payload[2] = static_cast<uint8_t>(mySensors->isActive(static_cast<int8_t>(msg->getPayload()[0])));
+            //----------------------------------------------------------
+
+            //------ assemble msg -------------------------------------- 
+            answer.setPayload(payload, 3);
+            //----------------------------------------------------------
+        }
         break;
 
 		case MessageType::S_AUTO_UPDATE :
-            answer.clear();
+        {
+            //----- construct basic msg as answer to the request -------
             answer.setMsgType(MessageType::ACK);
             payload[0] = static_cast<uint8_t>(MessageType::S_AUTO_UPDATE);
-            //
+            //----------------------------------------------------------
+
+            //------ processs the request ------------------------------
+            mySensors->externAutoUpdateAll = static_cast<bool>(msg->getPayload()[0]);
+            //----------------------------------------------------------
+
+            //------ set payload information ---------------------------
+            payload[1] = static_cast<uint8_t>(true);
+            //----------------------------------------------------------
+
+            //------ assemble msg -------------------------------------- 
             answer.setPayload(payload, 2);
+            //----------------------------------------------------------
+        }
         break;
 
         case MessageType::G_AUTO_UPDATE :
-            answer.clear();
+        {
+            //----- construct basic msg as answer to the request -------
             answer.setMsgType(MessageType::ACK);
             payload[0] = static_cast<uint8_t>(MessageType::G_AUTO_UPDATE);
-            //
-            answer.setPayload(payload, 2);
+            //----------------------------------------------------------
+
+            //------ processs the request ------------------------------
+            //----------------------------------------------------------
+
+            //------ set payload information ---------------------------
+            payload[1] = static_cast<uint8_t>(true);
+            payload[2] = static_cast<uint8_t>(mySensors->externAutoUpdateAll);
+            //----------------------------------------------------------
+
+            //------ assemble msg -------------------------------------- 
+            answer.setPayload(payload, 3);
+            //----------------------------------------------------------
+        }
         break;
         
         case MessageType::MAN_UPDATE :
-            answer.clear();
+        {
+            //----- construct basic msg as answer to the request -------
             answer.setMsgType(MessageType::ACK);
             payload[0] = static_cast<uint8_t>(MessageType::MAN_UPDATE);
-            
-            // update all sensors 
-            payload[1] = static_cast<uint8_t>(mySensors->updateAllSensors());
+            //----------------------------------------------------------
 
+            //------ processs the request ------------------------------
+
+            // update all sensors 
+            bool res = static_cast<uint8_t>(mySensors->updateAllSensors());
+
+            //----------------------------------------------------------
+
+            //------ set payload information ---------------------------
+            payload[1] = static_cast<uint8_t>(res);
+            //----------------------------------------------------------
+
+            //------ assemble msg -------------------------------------- 
             answer.setPayload(payload, 2);
+            //----------------------------------------------------------
+        }
         break;
 
         case MessageType::READ_SENSOR :
-            answer.clear();
+        {
+            //----- construct basic msg as answer to the request -------
             answer.setMsgType(MessageType::ACK);
             payload[0] = static_cast<uint8_t>(MessageType::READ_SENSOR);
-            //
-            answer.setPayload(payload, 2);
+            //----------------------------------------------------------
+
+            //------ processs the request ------------------------------
+            //------ set payload information ---------------------------
+            int8_t sensorNo = static_cast<int8_t>(msg->getPayload()[0]);
+            bool res = true;
+
+            for (uint8_t i = 0; i < SENSORS_READING_VECT_SIZE; i++) {
+                uint8_t temp[4] = {0};
+                float reading = mySensors->getReading(sensorNo, i);
+
+                if (arduino_util::bit_op::convFloatToBytes(&reading, temp) == false ) {
+                    res = false;
+                }
+
+                payload[1 + ((i * 4) + 0)] = temp[0];
+                payload[1 + ((i * 4) + 1)] = temp[1];
+                payload[1 + ((i * 4) + 2)] = temp[2];
+                payload[1 + ((i * 4) + 3)] = temp[3];
+            }
+
+            payload[1] = static_cast<uint8_t>(res);
+            //----------------------------------------------------------
+
+            //------ assemble msg -------------------------------------- 
+            answer.setPayload(payload, (1 + (SENSORS_READING_VECT_SIZE * 4)));
+            //----------------------------------------------------------
+        }
         break;
 
         case MessageType::ERROR :
@@ -189,7 +379,7 @@ bool communication::processRecMsg(Message* msg, Sensors* mySensors) {
 
     // send answer back
     if (answer.getMsgType() != MessageType::NONE && answer.getMsgType() != MessageType::ERROR) {
-        //sendMessage(msgAnswer);
+        sendMessage(&answer);
         return true;
     }
     else {

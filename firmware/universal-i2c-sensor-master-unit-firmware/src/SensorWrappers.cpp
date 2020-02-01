@@ -17,7 +17,6 @@
 // software serial stuff
 //SoftwareSerial SoftSerial(9, 10); // RX, TX
 
-
 ////////////
 // BNO055 //
 ////////////
@@ -47,7 +46,8 @@ bool SensorWrappers::SW_BNO055::init(Sensor_T::SensorCore *sensor) {
 
     // sensor specific init
     noError &= static_cast<Adafruit_BNO055*>(sensor->object)->begin();
-    /*noError &=*/ static_cast<Adafruit_BNO055*>(sensor->object)->setExtCrystalUse(true);
+    // noError &= ... 
+    static_cast<Adafruit_BNO055*>(sensor->object)->setExtCrystalUse(true);
 
     if (!noError) {
         // LED
@@ -108,6 +108,8 @@ bool SensorWrappers::SW_BNO055::update(Sensor_T::SensorCore *sensor) {
 
     return true;
 }
+
+/*
 
 /////////////
 // VL53L0X //
@@ -318,6 +320,8 @@ bool SensorWrappers::SW_VL6180X::update(Sensor_T::SensorCore*sensor) {
 
     return true;
 }
+
+*/
 
 ///////////
 // SRF08 //

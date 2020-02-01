@@ -23,6 +23,9 @@ void hardware::initHardware() {
     // init serial interface for logging
     SERIAL2LOG.begin(SERIAL2LOG_BAUD);
 
+    // init i2c interface
+    Wire.begin(SMU_MAIN_I2C_ADDRESS);
+
     // setup pins
     pinMode(ERROR_LED_PIN, OUTPUT);
     pinMode(STATUS_LED_PIN, OUTPUT);

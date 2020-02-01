@@ -26,9 +26,15 @@
 // communication backend
 #include "SMU-Communication-Backend.h"
 
-// sensor stuff
-#include "sensors.h"
+// global vars
+#include "GlobalVars.h"
 
+// sensor stuff
+#include "Sensors.h"
+
+// arduin util
+#include "arduino-util.h"
+#include "bit_op.h"
 
 /////////////
 // Defines //
@@ -55,19 +61,5 @@ namespace communication
 
 	bool processRecMsg(Message* msg, Sensors* mySensors);
 }
-
-/*class Communication
-{
-// Begin PUBLIC ------------------------------------------------------------------
-	public:
-
-// End PUBLIC --------------------------------------------------------------------
-
-// Begin PRIVATE -----------------------------------------------------------------
-	private:
-
-// End PRIVATE -------------------------------------------------------------------
-};
-*/
 
 #endif

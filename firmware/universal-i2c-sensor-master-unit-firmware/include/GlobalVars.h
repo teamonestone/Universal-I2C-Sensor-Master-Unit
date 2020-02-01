@@ -1,6 +1,6 @@
 /**
  * @file GlobalVars.h
- * @brief The header file for global variables.
+ * @brief The header file for global variables & defines.
  * @author Jonas Merkle [JJM] <a href="mailto:jonas.merkle@tam-onestone.net">jonas.merkle@tam-onestone.net</a>
  * @author Dominik Authaler <a href="mailto:dominik.authaler@team-onestone.net">dominik.authaler@team-onestone.net</a>
  * @author
@@ -17,6 +17,8 @@
 //////////////
 // Includes //
 //////////////
+
+// basic Includes
 #include <inttypes.h>
 
 
@@ -46,7 +48,9 @@
  */
 namespace GlobalVars {
 
-    static bool autoUpdateActivationStatus = false;
+    static int8_t SystemStatus = 0;
+    static int8_t SystemError = 0;
+    
 }
 
 #endif

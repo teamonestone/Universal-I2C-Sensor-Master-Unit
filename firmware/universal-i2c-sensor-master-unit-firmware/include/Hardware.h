@@ -22,6 +22,9 @@
 #include <Arduino.h>
 #include <inttypes.h>
 
+// global vars
+#include "GlobalVars.h"
+
 // i2c stuff
 #include <Wire.h>
 #include "TCA9548A.h"
