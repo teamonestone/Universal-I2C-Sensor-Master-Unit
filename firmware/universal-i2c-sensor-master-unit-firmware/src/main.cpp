@@ -62,7 +62,7 @@ void setup() {
 
 void loop() {
 
-	// check for incomming messages
+	// check for incoming messages
 	if (communication::checkForMessage() == true) {
 
 		writeToLog(STATUS_ReadMsg);
@@ -75,7 +75,7 @@ void loop() {
 			writeToLog(INFO_ProcessMsgDone);
 		}
 		else {
-			writeToLog(WARN_ComCouldNotReadIncommingMsg);
+			writeToLog(WARN_ComCouldNotReadIncomingMsg);
 		}
 	}
 	else {

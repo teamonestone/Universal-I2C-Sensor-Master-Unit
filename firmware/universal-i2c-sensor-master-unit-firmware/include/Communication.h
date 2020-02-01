@@ -32,7 +32,7 @@
 // sensor stuff
 #include "Sensors.h"
 
-// arduin util
+// arduino util
 #include "arduino-util.h"
 #include "bit_op.h"
 

@@ -80,7 +80,7 @@ namespace SensorWrappers {
     /**
      * @namespace SW_BNO055
      * 
-     * @brief The namespace is dedecated to all commands for the BNO055.
+     * @brief The namespace is contains all commands for the BNO055.
      */
     namespace SW_BNO055 {
         bool init(Sensor_T::SensorCore *sensor);
@@ -92,7 +92,7 @@ namespace SensorWrappers {
     ///**
     // * @namespace SW_VL53L0X
     // * 
-    // * @brief The namespace is dedecated to all commands for the VL53L0X.
+    // * @brief The namespace is contains all commands for the VL53L0X.
     // */
     //namespace SW_VL53L0X {
     //    bool init(Sensor_T::SensorCore *sensor);
@@ -104,7 +104,7 @@ namespace SensorWrappers {
     ///**
     // * @namespace SW_VL6180X
     // * 
-    // * @brief The namespace is dedecated to all commands for the VL6180X.
+    // * @brief The namespace is contains all commands for the VL6180X.
     // */
     //namespace SW_VL6180X {
     //    bool init(Sensor_T::SensorCore *sensor);
@@ -116,7 +116,7 @@ namespace SensorWrappers {
     /**
      * @namespace SW_SRF08
      * 
-     * @brief The namespace is dedecated to all commands for the SRF08.
+     * @brief The namespace is contains all commands for the SRF08.
      */
     namespace SW_SRF08 {
         bool init(Sensor_T::SensorCore *sensor);

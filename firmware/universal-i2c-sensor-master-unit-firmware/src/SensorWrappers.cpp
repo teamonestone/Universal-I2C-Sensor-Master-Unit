@@ -43,7 +43,7 @@ bool SensorWrappers::SW_BNO055::init(Sensor_T::SensorCore *sensor) {
 
     *static_cast<Adafruit_BNO055*>(sensor->object) = Adafruit_BNO055(-1, BNO055_I2C_ADDRESS);
 
-    // timing settigns
+    // timing settings
     sensor->readingIntervall = BNO055_REFRESH_TIMING;
 
     // set sensor type
@@ -131,7 +131,7 @@ bool SensorWrappers::SW_VL53L0X::init(Sensor_T::SensorCore *sensor) {
 
     *static_cast<Adafruit_VL53L0X*>(sensor->object) = Adafruit_VL53L0X();   // <- hier geht es nicht mehr weiter mit diesem Sensor 
 
-    // timing settigns
+    // timing settings
     sensor->readingIntervall = VL53L0X_REFRESH_TIMING;
 
     // set sensor type
@@ -230,7 +230,7 @@ bool SensorWrappers::SW_VL6180X::init(Sensor_T::SensorCore*sensor) {
 
     *static_cast<Adafruit_VL6180X*>(sensor->object) = Adafruit_VL6180X();
 
-    // timing settigns
+    // timing settings
     sensor->readingIntervall = VL6180X_REFRESH_TIMING;
 
     // set sensor type
@@ -335,7 +335,7 @@ bool SensorWrappers::SW_SRF08::init(Sensor_T::SensorCore*sensor) {
     // init new sensor object
     *static_cast<SRF08*>(sensor->object) = SRF08(SRF08_I2C_ADDRESS);
 
-    // timing settigns
+    // timing settings
     sensor->readingIntervall = SRF08_REFRESH_TIMING;
 
     // set sensor type
@@ -351,7 +351,7 @@ bool SensorWrappers::SW_SRF08::activate(Sensor_T::SensorCore*sensor) {
     // set i2c mux port 
     hardware::i2c_mux::Instance.set_port(sensor->port);
 
-    // an initial measurment
+    // an initial measurement
     static_cast<SRF08*>(sensor->object)->init();
 
     // reset time of last reading

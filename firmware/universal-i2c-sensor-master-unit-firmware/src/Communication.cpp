@@ -19,8 +19,8 @@ using namespace communication;
 
 bool communication::checkForMessage() {
 
-    // check if enought data is in the serial buffer
-    if (_SMU_COM_BACKEND_SERIAL_INTERFACE.available() >= _SMU_COM_BACKEND_MIN_MSG_LENGHT) {
+    // check if enough data is in the serial buffer
+    if (_SMU_COM_BACKEND_SERIAL_INTERFACE.available() >= _SMU_COM_BACKEND_MIN_MSG_LENGTH) {
         return true;
     }
     else {
@@ -56,7 +56,7 @@ bool communication::processRecMsg(Message* msg, Sensors* mySensors) {
             payload[0] = static_cast<uint8_t>(MessageType::PONG);
             //----------------------------------------------------------
 
-            //------ processs the request ------------------------------
+            //------ process the request -------------------------------
             //----------------------------------------------------------
 
             //------ set payload information ---------------------------
@@ -76,7 +76,7 @@ bool communication::processRecMsg(Message* msg, Sensors* mySensors) {
             payload[0] = static_cast<uint8_t>(MessageType::G_STATUS);
             //----------------------------------------------------------
 
-            //------ processs the request ------------------------------
+            //------ process the request -------------------------------
             //----------------------------------------------------------
 
             //------ set payload information ---------------------------
@@ -97,7 +97,7 @@ bool communication::processRecMsg(Message* msg, Sensors* mySensors) {
             payload[0] = static_cast<uint8_t>(MessageType::G_COM_ERROR);
             //----------------------------------------------------------
 
-            //------ processs the request ------------------------------
+            //------ process the request -------------------------------
             //----------------------------------------------------------
 
             //------ set payload information ---------------------------
@@ -118,7 +118,7 @@ bool communication::processRecMsg(Message* msg, Sensors* mySensors) {
             payload[0] = static_cast<uint8_t>(MessageType::G_SMU_ERROR);
             //----------------------------------------------------------
 
-            //------ processs the request ------------------------------
+            //------ process the request -------------------------------
             //----------------------------------------------------------
 
             //------ set payload information ---------------------------
@@ -139,7 +139,7 @@ bool communication::processRecMsg(Message* msg, Sensors* mySensors) {
             payload[0] = static_cast<uint8_t>(MessageType::RESET);
             //----------------------------------------------------------
 
-            //------ processs the request ------------------------------
+            //------ process the request -------------------------------
             //----------------------------------------------------------
 
             //------ set payload information ---------------------------
@@ -158,7 +158,7 @@ bool communication::processRecMsg(Message* msg, Sensors* mySensors) {
             payload[0] = static_cast<uint8_t>(MessageType::FIRMWARE_V);
             //----------------------------------------------------------
 
-            //------ processs the request ------------------------------
+            //------ process the request -------------------------------
             //----------------------------------------------------------
 
             //------ set payload information ---------------------------
@@ -179,7 +179,7 @@ bool communication::processRecMsg(Message* msg, Sensors* mySensors) {
             payload[0] = static_cast<uint8_t>(MessageType::COM_BACK_V);
             //----------------------------------------------------------
 
-            //------ processs the request ------------------------------
+            //------ process the request -------------------------------
             //----------------------------------------------------------
 
             //------ set payload information ---------------------------
@@ -200,7 +200,7 @@ bool communication::processRecMsg(Message* msg, Sensors* mySensors) {
             payload[0] = static_cast<uint8_t>(MessageType::INIT_SENSOR);
             //----------------------------------------------------------
 
-            //------ processs the request ------------------------------
+            //------ process the request -------------------------------
             uint8_t sensorPort = msg->getPayload()[1];
             smu_types::SensorType sensorType = static_cast<smu_types::SensorType>(msg->getPayload()[0]);
             
@@ -232,7 +232,7 @@ bool communication::processRecMsg(Message* msg, Sensors* mySensors) {
             payload[0] = static_cast<uint8_t>(MessageType::S_SEN_ACTIVE);
             //----------------------------------------------------------
 
-            //------ processs the request ------------------------------
+            //------ process the request -------------------------------
             bool res = false;
             if (static_cast<bool>(msg->getPayload()[1]) == true) {
                 res = mySensors->activateSensor(static_cast<int8_t>(msg->getPayload()[0]));
@@ -259,7 +259,7 @@ bool communication::processRecMsg(Message* msg, Sensors* mySensors) {
             payload[0] = static_cast<uint8_t>(MessageType::G_SEN_ACTIVE);
             //----------------------------------------------------------
 
-            //------ processs the request ------------------------------
+            //------ process the request -------------------------------
             //----------------------------------------------------------
 
             //------ set payload information ---------------------------
@@ -280,7 +280,7 @@ bool communication::processRecMsg(Message* msg, Sensors* mySensors) {
             payload[0] = static_cast<uint8_t>(MessageType::S_AUTO_UPDATE);
             //----------------------------------------------------------
 
-            //------ processs the request ------------------------------
+            //------ process the request -------------------------------
             mySensors->externAutoUpdateAll = static_cast<bool>(msg->getPayload()[0]);
             //----------------------------------------------------------
 
@@ -301,7 +301,7 @@ bool communication::processRecMsg(Message* msg, Sensors* mySensors) {
             payload[0] = static_cast<uint8_t>(MessageType::G_AUTO_UPDATE);
             //----------------------------------------------------------
 
-            //------ processs the request ------------------------------
+            //------ process the request -------------------------------
             //----------------------------------------------------------
 
             //------ set payload information ---------------------------
@@ -322,7 +322,7 @@ bool communication::processRecMsg(Message* msg, Sensors* mySensors) {
             payload[0] = static_cast<uint8_t>(MessageType::MAN_UPDATE);
             //----------------------------------------------------------
 
-            //------ processs the request ------------------------------
+            //------ process the request -------------------------------
 
             // update all sensors 
             bool res = static_cast<uint8_t>(mySensors->updateAllSensors());
@@ -346,7 +346,7 @@ bool communication::processRecMsg(Message* msg, Sensors* mySensors) {
             payload[0] = static_cast<uint8_t>(MessageType::READ_SENSOR);
             //----------------------------------------------------------
 
-            //------ processs the request ------------------------------
+            //------ process the request -------------------------------
             //------ set payload information ---------------------------
             int8_t sensorNo = static_cast<int8_t>(msg->getPayload()[0]);
             bool res = true;

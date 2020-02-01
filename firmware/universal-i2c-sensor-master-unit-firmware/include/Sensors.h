@@ -49,7 +49,7 @@ class Sensors
 		// public variables
 		bool externAutoUpdateAll;
 
-		// public functiuons 
+		// public functions 
 		int8_t connectSensor(uint8_t port, smu_types::SensorType type);
 		bool activateSensor(int8_t sensorNo);
 		bool deactivateSensor(int8_t sensorNo);

@@ -43,7 +43,7 @@
 #define ERROR_LED_PIN 12        //< Defines the pin number of the error led
 #define STATUS_LED_PIN 13       //< Defines the pin number of the status led
 
-#define SERIAL2LOG_BAUD 9200    //< The baudrate of the serial interface whic is used to write the log stuff
+#define SERIAL2LOG_BAUD 9200    //< The baudrate of the serial interface which is used to write the log stuff
 #define SERIAL2LOG Serial       //< The Serial interface which is used to write the log stuff
 
 

@@ -2,7 +2,7 @@
 #include "Sensors.h"
 
 // defines
-//#define SENSORS_LOCLA_FINE_DEBUG
+//#define SENSORS_LOCAL_FINE_DEBUG
 
 // used namespaces
 using namespace serial_logger;
@@ -30,7 +30,7 @@ int8_t Sensors::connectSensor(uint8_t port, smu_types::SensorType type) {
         return -1;
     }
 
-    #ifdef SENSORS_LOCLA_FINE_DEBUG
+    #ifdef SENSORS_LOCAL_FINE_DEBUG
     // "string" for sprintf
     char s[16] = {0};
     #endif
@@ -61,7 +61,7 @@ int8_t Sensors::connectSensor(uint8_t port, smu_types::SensorType type) {
                 return -1;
             }
 
-            #ifdef SENSORS_LOCLA_FINE_DEBUG
+            #ifdef SENSORS_LOCAL_FINE_DEBUG
             sprintf(s, "%p", _sensors[sensorNo].object);
             SERIAL2LOG.print("Init BNO055 on Port ");
             SERIAL2LOG.print(port);
@@ -93,7 +93,7 @@ int8_t Sensors::connectSensor(uint8_t port, smu_types::SensorType type) {
                 return -1;
             }
            
-            #ifdef SENSORS_LOCLA_FINE_DEBUG
+            #ifdef SENSORS_LOCAL_FINE_DEBUG
             sprintf(s, "%p", _sensors[sensorNo].object);
             SERIAL2LOG.print("Init VL53L0X on Port ");
             SERIAL2LOG.print(port);
@@ -124,7 +124,7 @@ int8_t Sensors::connectSensor(uint8_t port, smu_types::SensorType type) {
                 return -1;
             }
 
-            #ifdef SENSORS_LOCLA_FINE_DEBUG
+            #ifdef SENSORS_LOCAL_FINE_DEBUG
             sprintf(s, "%p", _sensors[sensorNo].object);
             SERIAL2LOG.print("Init VL6180X on Port ");
             SERIAL2LOG.print(port);
@@ -156,7 +156,7 @@ int8_t Sensors::connectSensor(uint8_t port, smu_types::SensorType type) {
                 return -1;
             }
             
-            #ifdef SENSORS_LOCLA_FINE_DEBUG
+            #ifdef SENSORS_LOCAL_FINE_DEBUG
             sprintf(s, "%p", _sensors[sensorNo].object);
             SERIAL2LOG.print("Init SRF08 on Port ");
             SERIAL2LOG.print(port);
